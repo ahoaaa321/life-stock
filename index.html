@@ -9,16 +9,22 @@
         :root {
             --bg-primary: #0a0e27;
             --bg-secondary: #131840;
-            --bg-card: rgba(255,255,255,0.03);
-            --border: rgba(255,255,255,0.1);
-            --text-primary: #fff;
-            --text-secondary: #a0a3c0;
+            --bg-card: rgba(255,255,255,0.05);
+            --bg-card-hover: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.12);
+            --border-hover: rgba(94,111,255,0.4);
+            --text-primary: #ffffff;
+            --text-secondary: #c8cadf;
+            --text-muted: #8a8db0;
             --accent-blue: #5e6fff;
             --accent-purple: #9d6fff;
             --accent-green: #4ade80;
             --accent-red: #f87171;
-            --accent-glow: rgba(94,111,255,0.3);
+            --accent-yellow: #fbbf24;
+            --accent-glow: rgba(94,111,255,0.35);
             --gradient: linear-gradient(135deg, #5e6fff 0%, #9d6fff 100%);
+            --gradient-green: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
+            --shadow-card: 0 8px 32px rgba(0,0,0,0.3);
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
@@ -28,6 +34,17 @@
             overflow-x: hidden;
         }
         .hidden { display: none !important; }
+
+        /* ========== 滚动条美化 ========== */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #5e6fff, #9d6fff); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7c8aff, #b088ff); }
+        * { scrollbar-width: thin; scrollbar-color: #5e6fff rgba(255,255,255,0.03); }
+
+        /* 输入框占位符 */
+        ::placeholder { color: var(--text-muted); opacity: 1; }
+        input, textarea { color: var(--text-primary); }
 
         /* ========== Hero ========== */
         .hero {
@@ -119,6 +136,15 @@
         .option-card { padding: 16px; background: rgba(255,255,255,0.03); border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; text-align: center; font-size: 14px; }
         .option-card:hover { border-color: var(--accent-blue); }
         .option-card.selected { border-color: var(--accent-blue); background: rgba(94,111,255,0.1); box-shadow: 0 0 0 2px var(--accent-glow); }
+        .option-card input.age-input {
+            width: 100%; padding: 18px; font-size: 28px; font-weight: 700; text-align: center;
+            background: rgba(255,255,255,0.05); border: 2px solid var(--border); border-radius: 16px;
+            color: var(--text-primary); outline: none; transition: all 0.3s ease;
+            -moz-appearance: textfield;
+        }
+        .option-card input.age-input::-webkit-outer-spin-button,
+        .option-card input.age-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .option-card input.age-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--accent-glow); background: rgba(94,111,255,0.08); }
         .form-actions { display: flex; gap: 12px; margin-top: 32px; }
         .btn-primary { flex: 1; padding: 14px; background: var(--gradient); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
@@ -140,8 +166,9 @@
         .dash-btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         @media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
-        .dash-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
-        .dash-card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .dash-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-card); transition: border-color 0.3s ease; }
+        .dash-card:hover { border-color: var(--border-hover); }
+        .dash-card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text-primary); }
 
         /* K线图 */
         #klineCanvas { width: 100%; height: 300px; display: block; }
@@ -157,32 +184,88 @@
         .invest-type.selected { border-color: var(--accent-blue); background: rgba(94,111,255,0.1); }
 
         /* 里程碑 */
-        .milestone-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; }
-        .milestone-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; }
-        .milestone-item.locked { opacity: 0.4; }
+        .milestone-list { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+        .milestone-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; transition: all 0.2s ease; }
+        .milestone-item:hover { background: rgba(255,255,255,0.06); }
+        .milestone-item.locked { opacity: 0.35; filter: grayscale(0.6); }
+        .milestone-item.achieved { border-color: rgba(74,222,128,0.2); background: rgba(74,222,128,0.05); }
         .milestone-icon { font-size: 24px; }
         .milestone-info { flex: 1; }
-        .milestone-name { font-size: 14px; font-weight: 600; }
-        .milestone-desc { font-size: 12px; color: var(--text-secondary); }
-        .milestone-bonus { font-size: 12px; color: var(--accent-green); font-weight: 600; }
+        .milestone-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .milestone-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .milestone-bonus { font-size: 13px; color: var(--accent-green); font-weight: 700; white-space: nowrap; }
 
         /* 财报 */
         .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .report-item { padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; }
-        .report-label { font-size: 11px; color: var(--text-secondary); }
-        .report-value { font-size: 18px; font-weight: 700; }
-        .report-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+        .report-item { padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; }
+        .report-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .report-value { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+        .report-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-top: 8px; overflow: hidden; }
         .report-bar-fill { height: 100%; background: var(--gradient); border-radius: 3px; transition: width 1s ease; }
 
         /* 投资记录 */
-        .invest-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .invest-record { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; font-size: 13px; }
-        .invest-record .type { color: var(--accent-blue); font-weight: 600; }
-        .invest-record .amount { font-weight: 600; }
-        .invest-record .date { color: var(--text-secondary); font-size: 11px; }
+        .invest-list { max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+        .invest-record { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; font-size: 13px; transition: all 0.2s ease; }
+        .invest-record:hover { background: rgba(255,255,255,0.06); }
+        .invest-record .type { color: var(--accent-blue); font-weight: 700; }
+        .invest-record .amount { font-weight: 700; color: var(--accent-green); }
+        .invest-record .date { color: var(--text-muted); font-size: 11px; }
 
         .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 12px 24px; background: var(--gradient); border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 2000; animation: toastIn 0.3s ease; }
         @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+        /* ========== 新功能样式 ========== */
+        /* 工具栏 */
+        .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .tool-btn { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+        .tool-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); background: rgba(94,111,255,0.1); }
+        .tool-btn.active { background: var(--gradient); color: white; border-color: transparent; }
+
+        /* 预测图表 */
+        #forecastCanvas { width: 100%; height: 280px; display: block; }
+        .forecast-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+        .forecast-stat { padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; text-align: center; }
+        .forecast-stat .label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+        .forecast-stat .value { font-size: 16px; font-weight: 700; }
+
+        /* 饼图 */
+        .pie-container { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        #pieCanvas { width: 160px; height: 160px; flex-shrink: 0; }
+        .pie-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .pie-legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+        .pie-legend-name { color: var(--text-secondary); flex: 1; }
+        .pie-legend-val { font-weight: 600; }
+
+        /* 分享卡片 */
+        .share-card { background: linear-gradient(135deg, #131840 0%, #1a1f4a 100%); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 380px; margin: 0 auto; }
+        .share-card .sc-brand { font-size: 12px; letter-spacing: 2px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; margin-bottom: 16px; }
+        .share-card .sc-price { font-size: 48px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
+        .share-card .sc-change { font-size: 16px; color: var(--accent-green); font-weight: 600; margin-bottom: 24px; }
+        .share-card .sc-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .share-card .sc-metric { padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; }
+        .share-card .sc-metric-label { font-size: 10px; color: var(--text-secondary); }
+        .share-card .sc-metric-val { font-size: 14px; font-weight: 700; margin-top: 2px; }
+        .share-card .sc-footer { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+        .share-card .sc-qr { width: 40px; height: 40px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #333; }
+
+        /* 锚点输入 */
+        .anchor-form { display: flex; flex-direction: column; gap: 12px; }
+        .anchor-tip { font-size: 12px; color: var(--text-secondary); padding: 12px; background: rgba(94,111,255,0.08); border-radius: 10px; border-left: 3px solid var(--accent-blue); }
+
+        /* 父母视角 */
+        .parent-view { padding: 16px; background: rgba(94,111,255,0.05); border: 1px solid rgba(94,111,255,0.2); border-radius: 12px; }
+        .parent-stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .parent-stat:last-child { border-bottom: none; }
+        .parent-stat .label { color: var(--text-secondary); font-size: 13px; }
+        .parent-stat .value { font-weight: 700; font-size: 14px; }
+
+        /* 股价卡片增强 */
+        .price-card { background: linear-gradient(135deg, rgba(94,111,255,0.12) 0%, rgba(157,111,255,0.12) 100%); border: 1px solid rgba(94,111,255,0.2); }
+        .price-main { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+        .price-value { font-size: 48px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .price-change { font-size: 18px; font-weight: 700; color: var(--accent-green); }
+        .price-change.down { color: var(--accent-red); }
 
         @media (max-width: 768px) {
             .stock-card { padding: 32px 24px; }
@@ -250,8 +333,11 @@
         <div class="dash-header">
             <div class="dash-brand">人生即股票</div>
             <div class="dash-actions">
+                <button class="dash-btn" onclick="showAnchorModal()">🎯 精度校准</button>
+                <button class="dash-btn" onclick="showForecastModal()">🔮 未来预测</button>
+                <button class="dash-btn" onclick="showShareModal()">📤 分享</button>
+                <button class="dash-btn ghost" onclick="toggleParentView()">👨‍👩‍👧 父母视角</button>
                 <button class="dash-btn ghost" onclick="resetAll()">重置</button>
-                <button class="dash-btn ghost" onclick="backToHome()">返回首页</button>
             </div>
         </div>
         <div class="dash-grid">
@@ -319,6 +405,19 @@
                     <div style="text-align:center;color:var(--text-secondary);padding:40px;">还没有投资记录，记一笔试试吧</div>
                 </div>
             </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">🥧 投入分类</div>
+                <div class="pie-container">
+                    <canvas id="pieCanvas" width="160" height="160"></canvas>
+                    <div class="pie-legend" id="pieLegend"></div>
+                </div>
+            </div>
+
+            <div class="dash-card" id="parentViewCard" style="display:none;">
+                <div class="dash-card-title">👨‍👩‍👧 父母视角</div>
+                <div class="parent-view" id="parentViewContent"></div>
+            </div>
         </div>
     </div>
 
@@ -338,6 +437,70 @@
             <div class="form-actions">
                 <button class="btn-secondary" id="prevBtn" onclick="prevStep()" style="display:none;">上一步</button>
                 <button class="btn-primary" id="nextBtn" onclick="nextStep()">下一步</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 精度校准弹窗 -->
+    <div class="modal-overlay hidden" id="anchorModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAnchorModal()">×</button>
+            <h2>🎯 精度校准</h2>
+            <p class="modal-desc">填入一笔你印象深刻的真实投入，系统将校准历史曲线，精度可达 ±4%</p>
+            <div class="anchor-form">
+                <div class="anchor-tip">💡 例如：高三那年报了一个 ¥30000 的冲刺班，或者大学四年学费共 ¥20000</div>
+                <div class="form-label">投入时的年龄</div>
+                <input type="number" class="invest-input" id="anchorAge" placeholder="例如：18" min="0" max="100">
+                <div class="form-label">投入金额（元）</div>
+                <input type="number" class="invest-input" id="anchorAmount" placeholder="例如：30000">
+                <div class="form-label">投入类型</div>
+                <select class="invest-input" id="anchorType" style="background:rgba(255,255,255,0.05);">
+                    <option value="education">🎓 教育</option>
+                    <option value="skill">📚 技能</option>
+                    <option value="health">💪 健康</option>
+                    <option value="network">🤝 人脉</option>
+                    <option value="entertainment">🎮 娱乐</option>
+                    <option value="other">📦 其他</option>
+                </select>
+                <button class="btn-primary" onclick="applyAnchor()">应用校准</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 未来预测弹窗 -->
+    <div class="modal-overlay hidden" id="forecastModal">
+        <div class="modal" style="max-width:700px;">
+            <button class="modal-close" onclick="closeForecastModal()">×</button>
+            <h2>🔮 未来股价预测</h2>
+            <p class="modal-desc">基于蒙特卡洛模拟，预测未来 10 年股价走势（假设持续学习、收入稳步增长）</p>
+            <canvas id="forecastCanvas"></canvas>
+            <div class="forecast-stats" id="forecastStats"></div>
+        </div>
+    </div>
+
+    <!-- 分享卡片弹窗 -->
+    <div class="modal-overlay hidden" id="shareModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeShareModal()">×</button>
+            <h2>📤 分享我的人生股价</h2>
+            <p class="modal-desc">生成专属股价卡片，截图分享给朋友</p>
+            <div class="share-card" id="shareCard">
+                <div class="sc-brand">LIFE AS STOCK · 人生即股票</div>
+                <div class="sc-price" id="scPrice">¥0</div>
+                <div class="sc-change" id="scChange">+0%</div>
+                <div class="sc-metrics">
+                    <div class="sc-metric"><div class="sc-metric-label">BV 账面价值</div><div class="sc-metric-val" id="scBV">0</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">EPS 每股收益</div><div class="sc-metric-val" id="scEPS">0</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">ROE 收益率</div><div class="sc-metric-val" id="scROE">0%</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">PE 市盈率</div><div class="sc-metric-val" id="scPE">0倍</div></div>
+                </div>
+                <div class="sc-footer">
+                    <span>扫码查看你的人生股价</span>
+                    <div class="sc-qr">人生股</div>
+                </div>
+            </div>
+            <div class="form-actions" style="margin-top:24px;">
+                <button class="btn-primary" onclick="downloadShareCard()">⬇️ 保存图片</button>
             </div>
         </div>
     </div>
@@ -631,7 +794,7 @@
         dots.forEach((d, i) => d.classList.toggle('active', i <= onboardingStep));
         const content = document.getElementById('modalContent');
         if (step.type === 'number') {
-            content.innerHTML = `<input type="number" class="option-card" style="width:100%;padding:20px;font-size:24px;text-align:center;" 
+            content.innerHTML = `<input type="number" class="age-input" style="width:100%;padding:18px;font-size:28px;font-weight:700;text-align:center;background:rgba(255,255,255,0.05);border:2px solid var(--border);border-radius:16px;color:var(--text-primary);outline:none;-moz-appearance:textfield;"
                 placeholder="${step.placeholder}" min="1" max="100" value="${onboardingData[step.field] || ''}"
                 oninput="setAge(this.value)" onkeydown="if(event.key==='Enter')nextStep()">`;
         } else {
@@ -795,6 +958,11 @@
                 </div>`;
             }).join('');
         }
+
+        // 绘制投入分类饼图
+        drawPieChart();
+        // 更新父母视角
+        updateParentView();
     }
 
     // ============ 记投资 ============
@@ -831,6 +999,262 @@
         const email = e.target.querySelector('input').value;
         showToast('预约成功！我们会在产品上线时通知你');
         e.target.reset();
+    }
+
+    // ============ 投入分类饼图 ============
+    function drawPieChart() {
+        const canvas = document.getElementById('pieCanvas');
+        if (!canvas || !user) return;
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // 统计各类型投入
+        const typeMap = {};
+        const allInvest = [...user.history.map(h => ({ type: h.type, amount: h.invest })), ...user.investments];
+        allInvest.forEach(inv => {
+            typeMap[inv.type] = (typeMap[inv.type] || 0) + inv.amount;
+        });
+
+        const total = Object.values(typeMap).reduce((s, v) => s + v, 0) || 1;
+        const colors = { education: '#5e6fff', skill: '#9d6fff', health: '#4ade80', network: '#fbbf24', entertainment: '#f87171', other: '#94a3b8' };
+        const labels = { education: '🎓 教育', skill: '📚 技能', health: '💪 健康', network: '🤝 人脉', entertainment: '🎮 娱乐', other: '📦 其他' };
+
+        let startAngle = -Math.PI / 2;
+        const cx = w / 2, cy = h / 2, r = 70;
+
+        Object.keys(typeMap).forEach(type => {
+            const val = typeMap[type];
+            const slice = (val / total) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, startAngle, startAngle + slice);
+            ctx.closePath();
+            ctx.fillStyle = colors[type] || '#94a3b8';
+            ctx.fill();
+            startAngle += slice;
+        });
+
+        // 中心圆
+        ctx.beginPath();
+        ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+        ctx.fillStyle = '#131840';
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('¥' + Math.round(total / 10000) + '万', cx, cy + 5);
+
+        // 图例
+        const legend = document.getElementById('pieLegend');
+        legend.innerHTML = Object.keys(typeMap).map(type => {
+            const pct = ((typeMap[type] / total) * 100).toFixed(1);
+            return `<div class="pie-legend-item">
+                <span class="pie-legend-dot" style="background:${colors[type]}"></span>
+                <span class="pie-legend-name">${labels[type]}</span>
+                <span class="pie-legend-val">${pct}%</span>
+            </div>`;
+        }).join('');
+    }
+
+    // ============ 父母视角 ============
+    let parentViewVisible = false;
+    function toggleParentView() {
+        parentViewVisible = !parentViewVisible;
+        document.getElementById('parentViewCard').style.display = parentViewVisible ? 'block' : 'none';
+    }
+    function updateParentView() {
+        if (!user) return;
+        const totalInvest = user.history.reduce((s, h) => s + h.invest, 0) + user.investments.reduce((s, i) => s + i.amount, 0);
+        const parentInvest = user.history.reduce((s, h) => s + h.invest, 0);
+        const selfInvest = user.investments.reduce((s, i) => s + i.amount, 0);
+        const stock = calculateStock(user);
+        const roi = totalInvest > 0 ? (stock.price / (totalInvest / 1000) * 100) : 0;
+
+        document.getElementById('parentViewContent').innerHTML = `
+            <div class="parent-stat"><span class="label">父母累计投入</span><span class="value">¥${Math.round(parentInvest).toLocaleString()}</span></div>
+            <div class="parent-stat"><span class="label">自我投入</span><span class="value">¥${Math.round(selfInvest).toLocaleString()}</span></div>
+            <div class="parent-stat"><span class="label">总投入</span><span class="value">¥${Math.round(totalInvest).toLocaleString()}</span></div>
+            <div class="parent-stat"><span class="label">当前股价</span><span class="value" style="color:var(--accent-green)">¥${stock.price}</span></div>
+            <div class="parent-stat"><span class="label">投资回报率</span><span class="value" style="color:var(--accent-green)">${Math.round(roi)}%</span></div>
+            <div style="margin-top:12px;padding:12px;background:rgba(74,222,128,0.08);border-radius:10px;font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                💡 父母的每一笔投入都在为你的"股价"添砖加瓦。<br>当前 ${user.age} 岁，股价已从 IPO 的 ¥100 增长到 ¥${stock.price}。
+            </div>
+        `;
+    }
+
+    // ============ 精度校准（锚点输入） ============
+    function showAnchorModal() {
+        document.getElementById('anchorModal').classList.remove('hidden');
+    }
+    function closeAnchorModal() {
+        document.getElementById('anchorModal').classList.add('hidden');
+    }
+    function applyAnchor() {
+        const age = parseInt(document.getElementById('anchorAge').value);
+        const amount = parseFloat(document.getElementById('anchorAmount').value);
+        const type = document.getElementById('anchorType').value;
+        if (!age || age < 0 || age > user.age) { showToast('请输入有效的年龄（0-' + user.age + '）'); return; }
+        if (!amount || amount <= 0) { showToast('请输入有效金额'); return; }
+
+        // 计算该年龄历史估算投入
+        const historyAtAge = user.history.filter(h => h.age === age);
+        const estAtAge = historyAtAge.reduce((s, h) => s + h.invest, 0);
+
+        if (estAtAge > 0) {
+            // 校准系数：用真实值/估算值调整整体历史投入
+            const calibRatio = amount / estAtAge;
+            user.history = user.history.map(h => ({ ...h, invest: h.invest * calibRatio }));
+            showToast(`校准成功！系数 ${calibRatio.toFixed(2)}，精度已提升`);
+        } else {
+            // 直接插入这笔投入
+            user.history.push({ age, invest: amount, type });
+            showToast('已添加该笔投入记录');
+        }
+
+        user.totalInvest = user.history.reduce((s, h) => s + h.invest, 0);
+        localStorage.setItem('lifeStockUser', JSON.stringify(user));
+        refreshDashboard();
+        closeAnchorModal();
+    }
+
+    // ============ 未来预测（蒙特卡洛） ============
+    function showForecastModal() {
+        document.getElementById('forecastModal').classList.remove('hidden');
+        setTimeout(drawForecast, 100);
+    }
+    function closeForecastModal() {
+        document.getElementById('forecastModal').classList.add('hidden');
+    }
+    function drawForecast() {
+        const canvas = document.getElementById('forecastCanvas');
+        if (!canvas || !user) return;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * 2;
+        canvas.height = 280 * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(2, 2);
+        const w = rect.width, h = 280;
+
+        const currentPrice = calculateStock(user).price;
+        const years = 10;
+        const simulations = 50;
+        const annualReturn = 0.12; // 年化收益假设
+        const volatility = 0.15;   // 波动率
+
+        const paths = [];
+        for (let s = 0; s < simulations; s++) {
+            let price = currentPrice;
+            const path = [price];
+            for (let y = 1; y <= years; y++) {
+                const shock = (Math.random() - 0.5) * 2 * volatility;
+                price = price * (1 + annualReturn + shock);
+                path.push(Math.max(100, price));
+            }
+            paths.push(path);
+        }
+
+        // 计算中位数路径
+        const medianPath = [];
+        for (let y = 0; y <= years; y++) {
+            const vals = paths.map(p => p[y]).sort((a, b) => a - b);
+            medianPath.push(vals[Math.floor(vals.length / 2)]);
+        }
+
+        // 绘制
+        const pad = { l: 50, r: 20, t: 20, b: 40 };
+        const chartW = w - pad.l - pad.r;
+        const chartH = h - pad.t - pad.b;
+        const allPrices = paths.flat();
+        const maxP = Math.max(...allPrices) * 1.05;
+        const minP = Math.min(...allPrices) * 0.95;
+        const range = maxP - minP || 1;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 网格
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.t + (chartH / 4) * i;
+            ctx.beginPath();
+            ctx.moveTo(pad.l, y);
+            ctx.lineTo(w - pad.r, y);
+            ctx.stroke();
+        }
+
+        // 绘制所有模拟路径（淡色）
+        paths.forEach(path => {
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(94,111,255,0.08)';
+            ctx.lineWidth = 1;
+            path.forEach((p, i) => {
+                const x = pad.l + (chartW / years) * i;
+                const y = pad.t + chartH - ((p - minP) / range) * chartH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        });
+
+        // 绘制中位数路径（亮色）
+        ctx.beginPath();
+        ctx.strokeStyle = '#5e6fff';
+        ctx.lineWidth = 3;
+        medianPath.forEach((p, i) => {
+            const x = pad.l + (chartW / years) * i;
+            const y = pad.t + chartH - ((p - minP) / range) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // 坐标轴标签
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.t + (chartH / 4) * i;
+            const val = Math.round(maxP - (range / 4) * i);
+            ctx.fillText('¥' + val, pad.l - 8, y + 4);
+        }
+        ctx.textAlign = 'center';
+        for (let i = 0; i <= years; i += 2) {
+            const x = pad.l + (chartW / years) * i;
+            ctx.fillText((user.age + i) + '岁', x, h - pad.b + 20);
+        }
+
+        // 统计数据
+        const finalPrices = paths.map(p => p[years]);
+        finalPrices.sort((a, b) => a - b);
+        const p10 = finalPrices[Math.floor(finalPrices.length * 0.1)];
+        const p50 = finalPrices[Math.floor(finalPrices.length * 0.5)];
+        const p90 = finalPrices[Math.floor(finalPrices.length * 0.9)];
+
+        document.getElementById('forecastStats').innerHTML = `
+            <div class="forecast-stat"><div class="label">悲观预期 (10%)</div><div class="value" style="color:var(--accent-red)">¥${Math.round(p10)}</div></div>
+            <div class="forecast-stat"><div class="label">中性预期 (50%)</div><div class="value" style="color:var(--accent-blue)">¥${Math.round(p50)}</div></div>
+            <div class="forecast-stat"><div class="label">乐观预期 (90%)</div><div class="value" style="color:var(--accent-green)">¥${Math.round(p90)}</div></div>
+        `;
+    }
+
+    // ============ 分享卡片 ============
+    function showShareModal() {
+        if (!user) return;
+        const stock = calculateStock(user);
+        document.getElementById('scPrice').textContent = '¥' + stock.price;
+        document.getElementById('scChange').textContent = (stock.change >= 0 ? '+' : '') + stock.change + '%';
+        document.getElementById('scBV').textContent = stock.bv;
+        document.getElementById('scEPS').textContent = stock.eps;
+        document.getElementById('scROE').textContent = stock.roe + '%';
+        document.getElementById('scPE').textContent = stock.pe;
+        document.getElementById('shareModal').classList.remove('hidden');
+    }
+    function closeShareModal() {
+        document.getElementById('shareModal').classList.add('hidden');
+    }
+    function downloadShareCard() {
+        showToast('请使用截图工具保存分享卡片');
     }
 
     // ============ 初始化 ============
