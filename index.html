@@ -181,7 +181,7 @@
         .dash-card:hover { border-color: var(--border-hover); }
         .dash-card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text-primary); }
 
-        /* K线图 */
+        /* 人生走势图图 */
         #klineCanvas { width: 100%; height: 300px; display: block; }
         .kline-legend { display: flex; gap: 16px; margin-top: 12px; font-size: 12px; color: var(--text-secondary); }
         .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
@@ -206,7 +206,7 @@
         .milestone-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
         .milestone-bonus { font-size: 13px; color: var(--accent-green); font-weight: 700; white-space: nowrap; }
 
-        /* 财报 */
+        /* 成长报告 */
         .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .report-item { padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; }
         .report-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
@@ -271,7 +271,7 @@
         .parent-stat .label { color: var(--text-secondary); font-size: 13px; }
         .parent-stat .value { font-weight: 700; font-size: 14px; }
 
-        /* 股价卡片增强 */
+        /* 人生指数卡片增强 */
         .price-card { background: linear-gradient(135deg, rgba(94,111,255,0.12) 0%, rgba(157,111,255,0.12) 100%); border: 1px solid rgba(94,111,255,0.2); }
         .price-main { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
         .price-value { font-size: 48px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -294,7 +294,7 @@
             <div class="hero-content">
                 <div class="brand">人生即股票</div>
                 <h1>让每一笔自我投资<br>都看得见回报</h1>
-                <p class="subtitle">把人生当成一只股票，父母的投入是股东注资，你的价值是股价</p>
+                <p class="subtitle">把人生当成一只股票，父母的投入是家庭支持资本，你的价值是人生指数</p>
                 <button class="cta-button" onclick="startOnboarding()">立即体验</button>
                 <div class="stock-card">
                     <div class="stock-card-header">
@@ -304,10 +304,10 @@
                     <div class="stock-price">¥500</div>
                     <div class="stock-change">+400% ↗</div>
                     <div class="stock-metrics">
-                        <div class="metric"><div class="metric-label">BV 账面价值</div><div class="metric-value">80.0</div></div>
-                        <div class="metric"><div class="metric-label">EPS 每股收益</div><div class="metric-value">12.5</div></div>
-                        <div class="metric"><div class="metric-label">ROE 收益率</div><div class="metric-value">15.6%</div></div>
-                        <div class="metric"><div class="metric-label">PE 市盈率</div><div class="metric-value">40倍</div></div>
+                        <div class="metric"><div class="metric-label">累计成长资本</div><div class="metric-value">80.0</div></div>
+                        <div class="metric"><div class="metric-label">年度成长力</div><div class="metric-value">12.5</div></div>
+                        <div class="metric"><div class="metric-label">成长效率</div><div class="metric-value">15.6%</div></div>
+                        <div class="metric"><div class="metric-label">估值倍数</div><div class="metric-value">40倍</div></div>
                     </div>
                 </div>
             </div>
@@ -317,18 +317,18 @@
             <h2 class="section-title">核心功能</h2>
             <p class="section-subtitle">用数据量化成长，用金融思维规划人生</p>
             <div class="features">
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🎯</div><h3>10问精准画像</h3><p>回答年龄、地区、家庭、学历、收入、健康、负债等10个问题，让股价高度匹配你的真实状况</p></div>
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📈</div><h3>实时人生K线</h3><p>股价实时反映成长，每次学习、健身、技能提升都会推动股价上涨</p></div>
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🏆</div><h3>里程碑系统</h3><p>从"小学入学"到"三十而立"，每个人生节点都是股价跃升的机会</p></div>
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📊</div><h3>个人财报</h3><p>生成年度财报，ROI、投入分类、风险提示，像上市公司一样审视自己</p></div>
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">💡</div><h3>记一笔投资</h3><p>记录每一笔对自己的投入，实时看到股价变化</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🎯</div><h3>10问精准画像</h3><p>回答年龄、地区、家庭、学历、收入、健康、负债等10个问题，让人生指数高度匹配你的真实状况</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📈</div><h3>实时人生走势图</h3><p>人生指数实时反映成长，每次学习、健身、技能提升都会推动人生指数上涨</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🏆</div><h3>里程碑系统</h3><p>从"小学入学"到"三十而立"，每个人生节点都是人生指数跃升的机会</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📊</div><h3>个人成长报告</h3><p>生成年度成长报告，ROI、投入分类、风险提示，像上市公司一样审视自己</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">💡</div><h3>记一笔投资</h3><p>记录每一笔对自己的投入，实时看到人生指数变化</p></div>
                 <div class="feature" onclick="startOnboarding()"><div class="feature-icon">👨‍👩‍👧</div><h3>父母视角</h3><p>让孩子看到父母的投入，用数据代替说教</p></div>
             </div>
         </section>
 
         <section class="signup-section" id="signup">
             <h2 class="section-title">抢先体验</h2>
-            <p class="section-subtitle">成为第一批看到自己"人生股价"的人</p>
+            <p class="section-subtitle">成为第一批看到自己"人生指数"的人</p>
             <form class="signup-form" onsubmit="handleSubmit(event)">
                 <input type="email" placeholder="输入你的邮箱" required>
                 <button type="submit">预约</button>
@@ -336,7 +336,12 @@
             <p style="margin-top: 24px; font-size: 14px; color: var(--text-secondary);">我们承诺不会发送垃圾邮件，只会在产品上线时通知你</p>
         </section>
 
-        <footer><p>© 2025 人生即股票 · 让每一笔自我投资都看得见回报</p></footer>
+        <footer>
+            <p>© 2025 人生即股票 · 让每一笔自我投资都看得见回报</p>
+            <p style="margin-top:8px;font-size:12px;color:var(--text-muted);max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6;">
+                ⚠️ 免责声明：本产品为个人成长量化工具，所有数值基于模型估算，不代表真实资产或投资建议。成长没有标准答案。
+            </p>
+        </footer>
     </div>
 
     <!-- 仪表盘 -->
@@ -348,6 +353,10 @@
                 <button class="dash-btn" onclick="showForecastModal()">🔮 未来预测</button>
                 <button class="dash-btn" onclick="showShareModal()">📤 分享</button>
                 <button class="dash-btn danger" onclick="showSetbackModal()">💥 记录挫折</button>
+                <button class="dash-btn ghost" onclick="showDetailModal()">📋 计算明细</button>
+                <button class="dash-btn ghost" onclick="exportData()">⬆️ 导出</button>
+                <button class="dash-btn ghost" onclick="document.getElementById('importFile').click()">⬇️ 导入</button>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
                 <button class="dash-btn ghost" onclick="showParentModal()">👨‍👩‍👧 父母视角</button>
                 <button class="dash-btn ghost" onclick="editProfile()">✏️ 编辑资料</button>
                 <button class="dash-btn ghost" onclick="resetAll()">重置</button>
@@ -355,23 +364,23 @@
         </div>
         <div class="dash-grid">
             <div class="dash-card" style="grid-column: span 2;">
-                <div class="dash-card-title">📈 人生K线 <span id="klineAge" style="font-size:13px;color:var(--text-secondary);font-weight:normal;"></span></div>
+                <div class="dash-card-title">📈 人生走势图 <span id="klineAge" style="font-size:13px;color:var(--text-secondary);font-weight:normal;"></span></div>
                 <canvas id="klineCanvas"></canvas>
                 <div class="kline-legend">
                     <span><span class="legend-dot" style="background:var(--accent-green)"></span>里程碑节点</span>
-                    <span><span class="legend-dot" style="background:var(--accent-blue)"></span>股价走势</span>
+                    <span><span class="legend-dot" style="background:var(--accent-blue)"></span>人生指数走势</span>
                 </div>
             </div>
 
             <div class="dash-card">
-                <div class="dash-card-title">💰 当前股价</div>
+                <div class="dash-card-title">💰 当前人生指数</div>
                 <div class="stock-price" id="dashPrice">¥0</div>
                 <div class="stock-change" id="dashChange">+0%</div>
                 <div class="stock-metrics" style="margin-top:20px;">
-                    <div class="metric"><div class="metric-label">BV 账面价值</div><div class="metric-value" id="dashBV">0</div></div>
-                    <div class="metric"><div class="metric-label">EPS 每股收益</div><div class="metric-value" id="dashEPS">0</div></div>
-                    <div class="metric"><div class="metric-label">ROE 收益率</div><div class="metric-value" id="dashROE">0%</div></div>
-                    <div class="metric"><div class="metric-label">PE 市盈率</div><div class="metric-value" id="dashPE">0倍</div></div>
+                    <div class="metric"><div class="metric-label">累计成长资本</div><div class="metric-value" id="dashBV">0</div></div>
+                    <div class="metric"><div class="metric-label">年度成长力</div><div class="metric-value" id="dashEPS">0</div></div>
+                    <div class="metric"><div class="metric-label">成长效率</div><div class="metric-value" id="dashROE">0%</div></div>
+                    <div class="metric"><div class="metric-label">估值倍数</div><div class="metric-value" id="dashPE">0倍</div></div>
                 </div>
             </div>
 
@@ -401,11 +410,11 @@
             </div>
 
             <div class="dash-card">
-                <div class="dash-card-title">📊 个人财报</div>
+                <div class="dash-card-title">📊 个人成长报告</div>
                 <div class="report-grid">
                     <div class="report-item"><div class="report-label">累计投入</div><div class="report-value" id="reportTotal">¥0</div></div>
                     <div class="report-item"><div class="report-label">本年投入</div><div class="report-value" id="reportYear">¥0</div></div>
-                    <div class="report-item"><div class="report-label">投资回报(ROI)</div><div class="report-value" id="reportROI">0%</div><div class="report-bar"><div class="report-bar-fill" id="roiBar" style="width:0%"></div></div></div>
+                    <div class="report-item"><div class="report-label">成长回报(ROI)</div><div class="report-value" id="reportROI">0%</div><div class="report-bar"><div class="report-bar-fill" id="roiBar" style="width:0%"></div></div></div>
                     <div class="report-item"><div class="report-label">成长系数</div><div class="report-value" id="reportGrowth">1.0</div><div class="report-bar"><div class="report-bar-fill" id="growthBar" style="width:50%"></div></div></div>
                     <div class="report-item"><div class="report-label">资产负债率</div><div class="report-value" id="reportDebt">0%</div></div>
                     <div class="report-item"><div class="report-label">健康评分</div><div class="report-value" id="reportHealth">0</div></div>
@@ -476,8 +485,8 @@
     <div class="modal-overlay hidden" id="forecastModal">
         <div class="modal" style="max-width:700px;">
             <button class="modal-close" onclick="closeForecastModal()">×</button>
-            <h2>🔮 未来股价预测</h2>
-            <p class="modal-desc">基于蒙特卡洛模拟，预测未来 10 年股价走势（假设持续学习、收入稳步增长）</p>
+            <h2>🔮 未来人生指数预测</h2>
+            <p class="modal-desc">基于蒙特卡洛模拟，预测未来 10 年人生指数走势（假设持续学习、收入稳步增长）</p>
             <canvas id="forecastCanvas"></canvas>
             <div class="forecast-stats" id="forecastStats"></div>
         </div>
@@ -487,21 +496,24 @@
     <div class="modal-overlay hidden" id="shareModal">
         <div class="modal">
             <button class="modal-close" onclick="closeShareModal()">×</button>
-            <h2>📤 分享我的人生股价</h2>
-            <p class="modal-desc">生成专属股价卡片，截图分享给朋友</p>
+            <h2>📤 分享我的人生指数</h2>
+            <p class="modal-desc">生成专属人生指数卡片，截图分享给朋友</p>
             <div class="share-card" id="shareCard">
-                <div class="sc-brand">LIFE AS STOCK · 人生即股票</div>
+                <div class="sc-brand">LIFE AS INDEX · 人生即成长</div>
                 <div class="sc-price" id="scPrice">¥0</div>
                 <div class="sc-change" id="scChange">+0%</div>
                 <div class="sc-metrics">
-                    <div class="sc-metric"><div class="sc-metric-label">BV 账面价值</div><div class="sc-metric-val" id="scBV">0</div></div>
-                    <div class="sc-metric"><div class="sc-metric-label">EPS 每股收益</div><div class="sc-metric-val" id="scEPS">0</div></div>
-                    <div class="sc-metric"><div class="sc-metric-label">ROE 收益率</div><div class="sc-metric-val" id="scROE">0%</div></div>
-                    <div class="sc-metric"><div class="sc-metric-label">PE 市盈率</div><div class="sc-metric-val" id="scPE">0倍</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">成长效率</div><div class="sc-metric-val" id="scROE">良好</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">里程碑</div><div class="sc-metric-val" id="scMilestone">0/15</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">健康等级</div><div class="sc-metric-val" id="scHealth">良好</div></div>
+                    <div class="sc-metric"><div class="sc-metric-label">学习习惯</div><div class="sc-metric-val" id="scStudy">稳定</div></div>
                 </div>
                 <div class="sc-footer">
-                    <span>扫码查看你的人生股价</span>
-                    <div class="sc-qr">人生股</div>
+                    <span>成长没有标准答案，每一步都算数</span>
+                    <div class="sc-qr">人生</div>
+                </div>
+                <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.4);text-align:center;">
+                    本数值基于模型估算，不代表真实资产
                 </div>
             </div>
             <div class="form-actions" style="margin-top:24px;">
@@ -515,7 +527,7 @@
         <div class="modal">
             <button class="modal-close" onclick="closeParentModal()">×</button>
             <h2>👨‍👩‍👧 父母视角</h2>
-            <p class="modal-desc">父母的每一笔投入，都是你人生股价的基石</p>
+            <p class="modal-desc">父母的每一笔投入，都是你人生指数的基石</p>
             <div class="parent-view" id="parentViewContent"></div>
         </div>
     </div>
@@ -525,11 +537,11 @@
         <div class="modal">
             <button class="modal-close" onclick="closeSetbackModal()">×</button>
             <h2>💥 记录人生挫折</h2>
-            <p class="modal-desc">股价有涨有跌，人生也一样。记录挫折，看到它对股价的真实冲击</p>
+            <p class="modal-desc">人生指数有涨有跌，人生也一样。记录挫折，看到它对人生指数的真实冲击</p>
             <div class="setback-types" id="setbackTypes">
                 <div class="setback-type" data-type="jobloss"><span class="icon">💼</span><div class="name">失业/降薪</div><div class="desc">收入下降，EPS受损</div></div>
                 <div class="setback-type" data-type="illness"><span class="icon">🏥</span><div class="name">重大疾病</div><div class="desc">健康衰退，负债增加</div></div>
-                <div class="setback-type" data-type="loss"><span class="icon">📉</span><div class="name">投资亏损</div><div class="desc">本金损失，BV缩水</div></div>
+                <div class="setback-type" data-type="loss"><span class="icon">📉</span><div class="name">投资回撤</div><div class="desc">本金回撤，成长资本调整</div></div>
                 <div class="setback-type" data-type="stagnate"><span class="icon">😴</span><div class="name">躺平/断更</div><div class="desc">停止成长，系数打折</div></div>
             </div>
             <div class="form-label">影响程度（1-10，越大冲击越强）</div>
@@ -541,19 +553,32 @@
         </div>
     </div>
 
+    <!-- 计算明细弹窗 -->
+    <div class="modal-overlay hidden" id="detailModal">
+        <div class="modal" style="max-width:620px;">
+            <button class="modal-close" onclick="document.getElementById('detailModal').classList.add('hidden')">×</button>
+            <h2>📋 人生指数计算明细</h2>
+            <p class="modal-desc">看清每一个数字的来龙去脉</p>
+            <div id="detailContent" style="max-height:60vh;overflow-y:auto;"></div>
+            <div style="margin-top:16px;padding:12px;background:rgba(251,191,36,0.08);border-radius:10px;font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                ⚠️ 以上数值基于模型估算，仅供自我成长参考，不代表真实资产。
+            </div>
+        </div>
+    </div>
+
     <script>
     // ============ 核心算法（移植自Java） ============
     const Constants = {
-        IPO_PRICE: 100,
-        NORMALIZATION_K: 13000,
-        TYPE_WEIGHTS: { education: 1.5, skill: 1.3, health: 1.1, network: 1.0, entertainment: 0.3, other: 0.5 },
-        TYPE_HALF_LIFE: { education: 10, skill: 5, health: 4, network: 3, entertainment: 1, other: 2 },
+        BASE_INDEX: 100,
+        TYPE_WEIGHTS: { education: 1.5, skill: 1.3, health: 1.1, network: 1.0, entertainment: 0.5, other: 0.5 },
+        TYPE_HALF_LIFE: { education: Infinity, skill: 5, health: 4, network: 3, entertainment: 1, other: 2 },
         REGION_COEF: { tier1: 1.8, new_tier1: 1.4, tier2: 1.1, tier3: 0.8 },
         AREA_COEF: { urban: 1.0, rural: 0.68 },
         INCOME_COEF: { low: 0.35, below_avg: 0.65, avg: 1.0, above_avg: 1.55, high: 2.9 },
         STAGE_COEF: [
-            { age: 6, coef: 0.3 }, { age: 12, coef: 0.5 }, { age: 18, coef: 0.9 },
-            { age: 25, coef: 1.1 }, { age: 35, coef: 1.5 }, { age: 50, coef: 1.3 }, { age: 200, coef: 0.8 }
+            { age: 0, coef: 0.2 }, { age: 6, coef: 0.3 }, { age: 12, coef: 0.5 },
+            { age: 18, coef: 0.9 }, { age: 25, coef: 1.1 }, { age: 35, coef: 1.5 },
+            { age: 50, coef: 1.3 }, { age: 80, coef: 0.8 }
         ],
         AGE_SPEND: {
             '0-2': 24538, '3-5': 36538, '6-14': 27007, '15-17': 29007,
@@ -562,18 +587,18 @@
     };
 
     const MILESTONES = [
-        { id: 'birth', name: '出生', icon: '👶', desc: '人生IPO', bonus: 20, condition: p => p.age >= 0 },
+        { id: 'birth', name: '出生', icon: '👶', desc: '人生起点', bonus: 20, condition: p => p.age >= 0 },
         { id: 'school', name: '小学入学', icon: '🎒', desc: '基础教育开始', bonus: 10, condition: p => p.age >= 6 },
         { id: 'middle', name: '初中毕业', icon: '📖', desc: '义务教育完成', bonus: 15, condition: p => p.age >= 15 },
-        { id: 'highschool', name: '高中毕业', icon: '🎓', desc: 'Pre-IPO完成', bonus: 20, condition: p => p.age >= 18 },
-        { id: 'college', name: '大学毕业', icon: '🎓', desc: 'IPO上市', bonus: 30, condition: p => p.age >= 22 },
-        { id: 'firstjob', name: '第一份工作', icon: '💼', desc: '开始盈利', bonus: 30, condition: p => p.hasJob },
-        { id: 'firstraise', name: '第一次涨薪', icon: '💰', desc: '业绩超预期', bonus: 15, condition: p => p.salaryRaised },
+        { id: 'highschool', name: '高中毕业', icon: '🎓', desc: '成年预备', bonus: 20, condition: p => p.age >= 18 },
+        { id: 'college', name: '大学毕业', icon: '🎓', desc: '步入社会', bonus: 30, condition: p => p.age >= 22 },
+        { id: 'firstjob', name: '第一份工作', icon: '💼', desc: '独立起步', bonus: 30, condition: p => p.hasJob },
+        { id: 'firstraise', name: '第一次涨薪', icon: '💰', desc: '成长被认可', bonus: 15, condition: p => p.salaryRaised },
         { id: 'license', name: '拿到驾照', icon: '🚗', desc: '技能+1', bonus: 5, condition: p => p.hasLicense },
         { id: 'marathon', name: '跑完马拉松', icon: '🏃', desc: '健康资产', bonus: 8, condition: p => p.marathon },
-        { id: 'marriage', name: '结婚', icon: '💍', desc: '重大并购', bonus: 20, condition: p => p.married },
-        { id: 'home', name: '买房', icon: '🏠', desc: '固定资产', bonus: 25, condition: p => p.hasHouse },
-        { id: 'child', name: '为人父母', icon: '👶', desc: '社会责任', bonus: 15, condition: p => p.hasChild },
+        { id: 'marriage', name: '结婚', icon: '💍', desc: '人生伙伴', bonus: 20, condition: p => p.married },
+        { id: 'home', name: '买房', icon: '🏠', desc: '安定居所', bonus: 25, condition: p => p.hasHouse },
+        { id: 'child', name: '为人父母', icon: '👶', desc: '新的责任', bonus: 15, condition: p => p.hasChild },
         { id: '30', name: '三十而立', icon: '🎯', desc: '人生分水岭', bonus: 25, condition: p => p.age >= 30 },
         { id: '100k', name: '十万投入', icon: '💎', desc: '累计投入超10万', bonus: 15, condition: p => p.totalInvest >= 100000 },
         { id: '500k', name: '五十万投入', icon: '👑', desc: '累计投入超50万', bonus: 30, condition: p => p.totalInvest >= 500000 }
@@ -600,16 +625,23 @@
         return history;
     }
 
-    // ============ 股价计算 ============
+    // ============ 指数计算 ============
     function getStageCoef(age) {
-        for (const s of Constants.STAGE_COEF) {
-            if (age <= s.age) return s.coef;
+        const nodes = Constants.STAGE_COEF;
+        if (age <= nodes[0].age) return nodes[0].coef;
+        for (let i = 0; i < nodes.length - 1; i++) {
+            if (age >= nodes[i].age && age <= nodes[i + 1].age) {
+                const t = (age - nodes[i].age) / (nodes[i + 1].age - nodes[i].age);
+                return nodes[i].coef + t * (nodes[i + 1].coef - nodes[i].coef);
+            }
         }
-        return 0.8;
+        return nodes[nodes.length - 1].coef;
     }
 
     function decay(invest, years, type) {
+        if (type === 'education') return invest; // 学历不折旧
         const halfLife = Constants.TYPE_HALF_LIFE[type] || 5;
+        if (!isFinite(halfLife)) return invest;
         return invest * Math.exp(-0.693 * years / halfLife);
     }
 
@@ -619,18 +651,18 @@
         user.history.forEach(h => {
             const years = user.age - h.age;
             const w = Constants.TYPE_WEIGHTS[h.type] || 1;
-            bv += (h.invest / Constants.NORMALIZATION_K) * w * decay(1, Math.max(0, years), h.type);
+            bv += (h.invest / 10000) * w * decay(1, Math.max(0, years), h.type);
         });
         user.investments.forEach(inv => {
             const years = (now - inv.date) / (365.25 * 24 * 3600 * 1000);
             const w = Constants.TYPE_WEIGHTS[inv.type] || 1;
-            bv += (inv.amount / Constants.NORMALIZATION_K) * w * decay(1, Math.max(0, years), inv.type);
+            bv += (inv.amount / 10000) * w * decay(1, Math.max(0, years), inv.type);
         });
 
         const stageCoef = getStageCoef(user.age);
         const milestoneBonus = MILESTONES.filter(m => m.condition(user)).reduce((s, m) => s + m.bonus, 0);
         const eps = (user.annualIncome || 0) / 10000;
-        const roe = bv > 0 ? (eps / bv * 100) : 0;
+        const roe = eps / (bv + 1) * 100;
 
         // ========== 下行机制 ==========
         // 1. 停滞衰减：最近2年无教育/技能/健康投入，成长系数打折（不进则退）
@@ -655,8 +687,8 @@
         const qualityCoef = 0.85 + effectiveHealth / 200;
         const riskDiscount = Math.min(0.3, (user.debtRatio || 0) * 0.3);
 
-        const price = (Constants.IPO_PRICE + bv * stageCoef + milestoneBonus) * growthCoef * qualityCoef * (1 - riskDiscount);
-        const change = ((price - Constants.IPO_PRICE) / Constants.IPO_PRICE * 100);
+        const price = (Constants.BASE_INDEX + bv * stageCoef + milestoneBonus) * growthCoef * qualityCoef * (1 - riskDiscount);
+        const change = ((price - Constants.BASE_INDEX) / Constants.BASE_INDEX * 100);
         const pe = eps > 0 ? Math.round(price / eps * 10) / 10 : 0;
 
         return {
@@ -689,7 +721,7 @@
 
             const tempUser = { ...user, age, history: user.history.filter(h => h.age <= age), investments: yearInv };
             const snapshot = calculateStock(tempUser);
-            // K线波动：每年叠加±8%随机扰动，模拟市场情绪与不确定性
+            // 人生走势图波动：每年叠加±8%随机扰动，模拟市场情绪与不确定性
             const volatility = 1 + (Math.random() - 0.5) * 0.16;
             const price = snapshot.price * volatility;
             points.push({ age, price: Math.round(price * 10) / 10, invest: yearInvest, total: cumulative });
@@ -699,7 +731,7 @@
 
     // ============ 同龄人基准价计算 ============
     function getPeerBenchmark(user) {
-        // 基于同龄、同地区、相同学历的"平均人"参数估算基准股价
+        // 基于同龄、同地区、相同学历的"平均人"参数估算基准人生指数
         const avgProfile = {
             age: user.age,
             region: user.region,
@@ -725,7 +757,7 @@
         return calculateStock(avgProfile).price;
     }
 
-    // ============ K线图绘制 ============
+    // ============ 人生走势图图绘制 ============
     function drawKline(points, userObj) {
         const canvas = document.getElementById('klineCanvas');
         if (!canvas) return;
@@ -909,7 +941,7 @@
         ctx.fillStyle = '#5e6fff';
         ctx.fillRect(legendX, legendY - 8, 12, 3);
         ctx.fillStyle = '#c8cadf';
-        ctx.fillText('股价', legendX + 16, legendY);
+        ctx.fillText('人生指数', legendX + 16, legendY);
         ctx.fillStyle = '#a855f7';
         ctx.fillRect(legendX + 50, legendY - 8, 12, 3);
         ctx.fillStyle = '#c8cadf';
@@ -919,7 +951,7 @@
         ctx.fillStyle = '#c8cadf';
         ctx.fillText('同龄人', legendX + 121, legendY);
 
-        document.getElementById('klineAge').textContent = `（${last.age}岁，当前股价 ¥${last.price}）`;
+        document.getElementById('klineAge').textContent = `（${last.age}岁，当前人生指数 ¥${last.price}）`;
     }
 
     // ============ 状态管理 ============
@@ -931,7 +963,7 @@
     const onboardingSteps = [
         {
             title: '第1步：你今年多大？',
-            desc: '年龄决定了你的人生K线长度和当前阶段',
+            desc: '年龄决定了你的人生走势图长度和当前阶段',
             field: 'age',
             type: 'number',
             placeholder: '请输入年龄（1-100）'
@@ -961,7 +993,7 @@
         },
         {
             title: '第4步：你的学历？',
-            desc: '这会影响教育投入估算和当前股价',
+            desc: '这会影响教育投入估算和当前人生指数',
             field: 'education',
             options: [
                 { val: 'primary', label: '小学及以下', sub: '投入较低' },
@@ -974,7 +1006,7 @@
         },
         {
             title: '第5步：你的年收入？',
-            desc: '这直接决定你的每股收益（EPS），请填税前年薪',
+            desc: '这直接决定你的年度成长力（EPS），请填税前年薪',
             field: 'annualIncome',
             type: 'number',
             placeholder: '请输入税前年收入（元），如 120000'
@@ -992,7 +1024,7 @@
         },
         {
             title: '第7步：每周学习时长？',
-            desc: '持续学习是推动股价上涨的核心动力',
+            desc: '持续学习是推动人生指数上涨的核心动力',
             field: 'studyHours',
             options: [
                 { val: 0, label: '😴 几乎不学', sub: '0小时/周' },
@@ -1014,7 +1046,7 @@
         },
         {
             title: '第9步：负债情况？',
-            desc: '负债会产生风险折价，拉低股价',
+            desc: '负债会产生风险折价，拉低人生指数',
             field: 'debtRatio',
             options: [
                 { val: 0, label: '✅ 无负债', sub: '无房贷车贷' },
@@ -1025,7 +1057,7 @@
         },
         {
             title: '第10步：人生节点（可多选）',
-            desc: '已达成的节点会推高股价（milestoneBonus）',
+            desc: '已达成的节点会推高人生指数（milestoneBonus）',
             field: 'milestones',
             type: 'multi',
             options: [
@@ -1078,7 +1110,7 @@
             ).join('')}</div>`;
         }
         document.getElementById('prevBtn').style.display = onboardingStep > 0 ? 'block' : 'none';
-        document.getElementById('nextBtn').textContent = onboardingStep === onboardingSteps.length - 1 ? '生成我的人生K线' : '下一步';
+        document.getElementById('nextBtn').textContent = onboardingStep === onboardingSteps.length - 1 ? '生成我的人生走势图' : '下一步';
         // 校验：number需有值，option需有选择，multi至少选1个或允许不选
         const val = onboardingData[step.field];
         const isValid = step.type === 'multi' ? true : (val !== undefined && val !== null && val !== '');
@@ -1191,7 +1223,7 @@
         localStorage.setItem('lifeStockUser', JSON.stringify(user));
         closeModal();
         showDashboard();
-        showToast('人生K线已生成！');
+        showToast('人生走势图已生成！');
     }
 
     function showDashboard() {
@@ -1296,7 +1328,7 @@
         document.getElementById('investDesc').value = '';
         localStorage.setItem('lifeStockUser', JSON.stringify(user));
         refreshDashboard();
-        showToast(`投资成功！+¥${amount}，股价已更新`);
+        showToast(`投资成功！+¥${amount}，人生指数已更新`);
     }
 
     function showToast(msg) {
@@ -1402,12 +1434,12 @@
             <div class="parent-stat"><span class="label">父母累计投入</span><span class="value" style="color:#a855f7;">¥${Math.round(parentInvest).toLocaleString()}</span></div>
             <div class="parent-stat"><span class="label">自我投入</span><span class="value" style="color:#f59e0b;">¥${Math.round(selfInvest).toLocaleString()}</span></div>
             <div class="parent-stat"><span class="label">总投入</span><span class="value">¥${Math.round(totalInvest).toLocaleString()}</span></div>
-            <div class="parent-stat"><span class="label">当前股价</span><span class="value" style="color:var(--accent-green)">¥${stock.price}</span></div>
-            <div class="parent-stat"><span class="label">投资回报率</span><span class="value" style="color:var(--accent-green)">${Math.round(roi)}%</span></div>
+            <div class="parent-stat"><span class="label">当前人生指数</span><span class="value" style="color:var(--accent-green)">¥${stock.price}</span></div>
+            <div class="parent-stat"><span class="label">成长回报率</span><span class="value" style="color:var(--accent-green)">${Math.round(roi)}%</span></div>
             <div style="margin-top:16px;padding:14px;background:rgba(74,222,128,0.08);border-radius:12px;font-size:12px;color:var(--text-secondary);line-height:1.7;">
-                💡 父母的每一笔投入都在为你的"股价"添砖加瓦。<br>
-                当前 ${user.age} 岁，股价已从 IPO 的 ¥100 增长到 ¥${stock.price}。<br>
-                ${selfInvest === 0 ? '⚠️ 你还没有记录任何自我投入，试试"记一笔投资"吧！' : '继续加油，你的每一笔自我投入都会让股价更上一层楼。'}
+                💡 父母的每一笔投入都在为你的"人生指数"添砖加瓦。<br>
+                当前 ${user.age} 岁，人生指数已从基准 100 增长到 ¥${stock.price}。<br>
+                ${selfInvest === 0 ? '⚠️ 你还没有记录任何自我投入，试试"记一笔投资"吧！' : '继续加油，你的每一笔自我投入都会让人生指数更上一层楼。'}
             </div>
         `;
     }
@@ -1571,12 +1603,24 @@
     function showShareModal() {
         if (!user) return;
         const stock = calculateStock(user);
+        // 成长效率等级
+        const roe = stock.roe;
+        const roeLevel = roe >= 15 ? '优秀' : roe >= 8 ? '良好' : roe >= 3 ? '一般' : '待提升';
+        // 里程碑达成
+        const achieved = MILESTONES.filter(m => m.condition(user)).length;
+        // 健康等级
+        const health = stock.effectiveHealth || user.healthScore || 60;
+        const healthLevel = health >= 80 ? '优秀' : health >= 60 ? '良好' : health >= 40 ? '一般' : '需关注';
+        // 学习习惯
+        const hours = user.studyHours || 0;
+        const studyLevel = hours >= 8 ? '勤奋' : hours >= 3 ? '稳定' : hours >= 1 ? '一般' : '较少';
+
         document.getElementById('scPrice').textContent = '¥' + stock.price;
         document.getElementById('scChange').textContent = (stock.change >= 0 ? '+' : '') + stock.change + '%';
-        document.getElementById('scBV').textContent = stock.bv;
-        document.getElementById('scEPS').textContent = stock.eps;
-        document.getElementById('scROE').textContent = stock.roe + '%';
-        document.getElementById('scPE').textContent = stock.pe;
+        document.getElementById('scROE').textContent = roeLevel;
+        document.getElementById('scMilestone').textContent = achieved + '/' + MILESTONES.length;
+        document.getElementById('scHealth').textContent = healthLevel;
+        document.getElementById('scStudy').textContent = studyLevel;
         document.getElementById('shareModal').classList.remove('hidden');
     }
     function closeShareModal() {
@@ -1630,12 +1674,12 @@
                 showToast(`🏥 健康分降至 ${user.healthScore}，负债率 ${Math.round(user.debtRatio*100)}%`);
                 break;
             case 'loss':
-                // 投资亏损：直接扣减最近的账面价值（从累计投入中扣除）
+                // 投资回撤：直接扣减最近的成长资本（从累计投入中扣除）
                 const lossAmount = user.totalInvest * 0.15 * factor;
                 user.totalInvest = Math.max(0, user.totalInvest - lossAmount);
                 // 从history中按比例扣减最后几年投入
                 user.history = user.history.map(h => ({ ...h, invest: h.invest * (1 - 0.15 * factor) }));
-                showToast(`📉 本金亏损 ¥${Math.round(lossAmount)}，BV缩水`);
+                showToast(`📉 本金回撤 ¥${Math.round(lossAmount)}，成长资本调整`);
                 break;
             case 'stagnate':
                 // 躺平/断更：清除近期成长型投入，触发停滞衰减
@@ -1655,10 +1699,132 @@
 
         const after = calculateStock(user).price;
         const drop = ((after - before) / before * 100);
-        setTimeout(() => showToast(`股价 ${before.toFixed(1)} → ${after.toFixed(1)}（${drop >= 0 ? '+' : ''}${drop.toFixed(1)}%）`), 600);
+        setTimeout(() => showToast(`人生指数 ${before.toFixed(1)} → ${after.toFixed(1)}（${drop >= 0 ? '+' : ''}${drop.toFixed(1)}%）`), 600);
+    }
+
+    // ============ 计算明细 ============
+    function showDetailModal() {
+        if (!user) return;
+        const stock = calculateStock(user);
+        const stageCoef = getStageCoef(user.age);
+        const achieved = MILESTONES.filter(m => m.condition(user));
+        const milestoneBonus = achieved.reduce((s, m) => s + m.bonus, 0);
+
+        // BV 构成明细（按类型汇总）
+        const bvByType = {};
+        user.history.forEach(h => {
+            const years = user.age - h.age;
+            const w = Constants.TYPE_WEIGHTS[h.type] || 1;
+            const val = (h.invest / 10000) * w * decay(1, Math.max(0, years), h.type);
+            bvByType[h.type] = (bvByType[h.type] || 0) + val;
+        });
+        user.investments.forEach(inv => {
+            const years = (new Date() - inv.date) / (365.25 * 24 * 3600 * 1000);
+            const w = Constants.TYPE_WEIGHTS[inv.type] || 1;
+            const val = (inv.amount / 10000) * w * decay(1, Math.max(0, years), inv.type);
+            bvByType[inv.type] = (bvByType[inv.type] || 0) + val;
+        });
+        const typeNames = { education: '教育', skill: '技能', health: '健康', network: '人脉', entertainment: '娱乐', other: '其他' };
+        const bvRows = Object.entries(bvByType).map(([t, v]) =>
+            `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;">
+                <span style="color:var(--text-secondary)">${typeNames[t] || t}</span>
+                <span>${v.toFixed(2)} 万</span>
+            </div>`
+        ).join('');
+
+        const html = `
+            <div style="font-family:monospace;font-size:13px;line-height:2;">
+                <div style="padding:12px;background:rgba(94,111,255,0.1);border-radius:10px;margin-bottom:12px;">
+                    <div style="font-weight:bold;color:var(--accent-blue);margin-bottom:8px;">📐 计算公式</div>
+                    <div style="color:var(--text-secondary)">人生指数 = (100 + BV × 阶段系数 + 里程碑加成) × 成长系数 × 质量系数 × (1 - 风险折扣)</div>
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px;">
+                    <div style="font-weight:bold;margin-bottom:8px;">① 基准指数</div>
+                    <div style="color:var(--text-secondary)">100（所有人同一起点）</div>
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px;">
+                    <div style="font-weight:bold;margin-bottom:8px;">② 累计成长资本 (BV) = ${stock.bv.toFixed(2)} 万</div>
+                    ${bvRows}
+                    <div style="border-top:1px solid rgba(255,255,255,0.1);margin-top:6px;padding-top:6px;font-weight:bold;">
+                        BV × 阶段系数 = ${stock.bv.toFixed(2)} × ${stageCoef.toFixed(2)} = ${(stock.bv * stageCoef).toFixed(2)}
+                    </div>
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px;">
+                    <div style="font-weight:bold;margin-bottom:8px;">③ 里程碑加成 = ${milestoneBonus}</div>
+                    ${achieved.map(m => `<div style="font-size:12px;color:var(--text-secondary)">${m.icon} ${m.name} +${m.bonus}</div>`).join('')}
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px;">
+                    <div style="font-weight:bold;margin-bottom:8px;">④ 系数</div>
+                    <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary)">成长系数</span><span>${stock.growthCoef}</span></div>
+                    <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary)">质量系数（健康${stock.effectiveHealth}）</span><span>${stock.qualityCoef}</span></div>
+                    <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary)">风险折扣</span><span>${Math.round((1 - (1 - Math.min(0.3, (user.debtRatio||0)*0.3))) * 100)}%</span></div>
+                </div>
+                <div style="padding:16px;background:linear-gradient(135deg,rgba(94,111,255,0.2),rgba(168,85,247,0.2));border-radius:12px;text-align:center;">
+                    <div style="color:var(--text-secondary);font-size:12px;">最终人生指数</div>
+                    <div style="font-size:32px;font-weight:bold;color:var(--accent-blue);">¥${stock.price}</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">较基准 ${stock.change >= 0 ? '+' : ''}${stock.change}%</div>
+                </div>
+            </div>
+        `;
+        document.getElementById('detailContent').innerHTML = html;
+        document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    // ============ 数据导入/导出 ============
+    function exportData() {
+        if (!user) { showToast('暂无数据可导出'); return; }
+        const data = { ...user, exportTime: new Date().toISOString(), version: '1.1' };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `life-index-${user.age}岁-${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('✅ 数据已导出');
+    }
+
+    function importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (!data.age || !data.history) throw new Error('格式不正确');
+                data.investments = (data.investments || []).map(i => ({ ...i, date: new Date(i.date) }));
+                if (data.setbacks) data.setbacks = data.setbacks.map(s => ({ ...s, date: new Date(s.date) }));
+                user = data;
+                localStorage.setItem('lifeStockUser', JSON.stringify(user));
+                showDashboard();
+                showToast('✅ 数据已导入');
+            } catch (err) {
+                showToast('❌ 导入失败：文件格式不正确');
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
     }
 
     // ============ 初始化 ============
+    // 首次进入免责声明弹窗
+    if (!localStorage.getItem('disclaimerConfirmed')) {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `
+            <div class="modal" style="max-width:480px;">
+                <h2>⚠️ 温馨提示</h2>
+                <p style="color:var(--text-secondary);line-height:1.8;margin:16px 0;">
+                    本产品为<strong style="color:var(--text-primary)">个人成长量化工具</strong>，所有数值基于模型估算，<strong style="color:var(--accent-yellow)">不代表真实资产或投资建议</strong>。<br><br>
+                    人生不是股票，成长没有标准答案。这里的"指数"只是帮你看见自己的每一步投入。
+                </p>
+                <div class="form-actions">
+                    <button class="btn-primary" onclick="this.closest('.modal-overlay').remove();localStorage.setItem('disclaimerConfirmed','1');">我知道了</button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+    }
+
     const saved = localStorage.getItem('lifeStockUser');
     if (saved) {
         try {
