@@ -314,7 +314,7 @@
             <h2 class="section-title">核心功能</h2>
             <p class="section-subtitle">用数据量化成长，用金融思维规划人生</p>
             <div class="features">
-                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🎯</div><h3>4问生成历史曲线</h3><p>回答年龄、地区、家庭、学历4个问题，基于国家统计局数据生成0-18岁投入曲线，精度±4%</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🎯</div><h3>10问精准画像</h3><p>回答年龄、地区、家庭、学历、收入、健康、负债等10个问题，让股价高度匹配你的真实状况</p></div>
                 <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📈</div><h3>实时人生K线</h3><p>股价实时反映成长，每次学习、健身、技能提升都会推动股价上涨</p></div>
                 <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🏆</div><h3>里程碑系统</h3><p>从"小学入学"到"三十而立"，每个人生节点都是股价跃升的机会</p></div>
                 <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📊</div><h3>个人财报</h3><p>生成年度财报，ROI、投入分类、风险提示，像上市公司一样审视自己</p></div>
@@ -346,6 +346,7 @@
                 <button class="dash-btn" onclick="showShareModal()">📤 分享</button>
                 <button class="dash-btn danger" onclick="showSetbackModal()">💥 记录挫折</button>
                 <button class="dash-btn ghost" onclick="showParentModal()">👨‍👩‍👧 父母视角</button>
+                <button class="dash-btn ghost" onclick="editProfile()">✏️ 编辑资料</button>
                 <button class="dash-btn ghost" onclick="resetAll()">重置</button>
             </div>
         </div>
@@ -431,9 +432,6 @@
             <button class="modal-close" onclick="closeModal()">×</button>
             <div class="step-indicator" id="stepIndicator">
                 <div class="step-dot active"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
             </div>
             <h2 id="modalTitle">第1步：你来自哪里？</h2>
             <p class="modal-desc" id="modalDesc">选择你成长的地区，这会影响历史投入估算</p>
@@ -835,12 +833,80 @@
                 { val: 'bachelor', label: '本科', sub: '本科教育' },
                 { val: 'master', label: '硕士及以上', sub: '高学历' }
             ]
+        },
+        {
+            title: '第5步：你的年收入？',
+            desc: '这直接决定你的每股收益（EPS），请填税前年薪',
+            field: 'annualIncome',
+            type: 'number',
+            placeholder: '请输入税前年收入（元），如 120000'
+        },
+        {
+            title: '第6步：收入增长趋势？',
+            desc: '反映你的成长性，影响成长系数（growthCoef）',
+            field: 'incomeGrowth',
+            options: [
+                { val: -0.05, label: '📉 收入下降', sub: '近两年收入减少' },
+                { val: 0.02, label: '➡️ 基本稳定', sub: '收入持平' },
+                { val: 0.08, label: '📈 稳步增长', sub: '年增5-15%' },
+                { val: 0.2, label: '🚀 快速增长', sub: '年增15%以上' }
+            ]
+        },
+        {
+            title: '第7步：每周学习时长？',
+            desc: '持续学习是推动股价上涨的核心动力',
+            field: 'studyHours',
+            options: [
+                { val: 0, label: '😴 几乎不学', sub: '0小时/周' },
+                { val: 2, label: '📖 偶尔学习', sub: '1-3小时/周' },
+                { val: 5, label: '💻 经常学习', sub: '4-8小时/周' },
+                { val: 10, label: '🔥 持续学习', sub: '8小时以上/周' }
+            ]
+        },
+        {
+            title: '第8步：健康状况？',
+            desc: '健康是你最大的资产，影响质量系数（qualityCoef）',
+            field: 'healthScore',
+            options: [
+                { val: 40, label: '😷 较差', sub: '经常生病/亚健康' },
+                { val: 60, label: '😐 一般', sub: '偶尔不适' },
+                { val: 75, label: '🙂 良好', sub: '基本健康' },
+                { val: 90, label: '💪 优秀', sub: '经常运动/精力充沛' }
+            ]
+        },
+        {
+            title: '第9步：负债情况？',
+            desc: '负债会产生风险折价，拉低股价',
+            field: 'debtRatio',
+            options: [
+                { val: 0, label: '✅ 无负债', sub: '无房贷车贷' },
+                { val: 0.1, label: '💳 少量负债', sub: '负债<年收入30%' },
+                { val: 0.3, label: '🏠 中等负债', sub: '负债占年收入30-60%' },
+                { val: 0.6, label: '⚠️ 高负债', sub: '负债>年收入60%' }
+            ]
+        },
+        {
+            title: '第10步：人生节点（可多选）',
+            desc: '已达成的节点会推高股价（milestoneBonus）',
+            field: 'milestones',
+            type: 'multi',
+            options: [
+                { val: 'hasJob', label: '💼 有工作', sub: '第一份工作 +30' },
+                { val: 'salaryRaised', label: '💰 涨过薪', sub: '业绩超预期 +15' },
+                { val: 'hasLicense', label: '🚗 有驾照', sub: '技能+1 +5' },
+                { val: 'marathon', label: '🏃 跑过马拉松', sub: '健康资产 +8' },
+                { val: 'married', label: '💍 已婚', sub: '重大并购 +20' },
+                { val: 'hasHouse', label: '🏠 有房产', sub: '固定资产 +25' },
+                { val: 'hasChild', label: '👶 有孩子', sub: '社会责任 +15' }
+            ]
         }
     ];
 
     function startOnboarding() {
         onboardingStep = 0;
         onboardingData = { area: 'urban' };
+        // 动态生成步骤点
+        document.getElementById('stepIndicator').innerHTML = onboardingSteps.map(() => '<div class="step-dot"></div>').join('');
         document.getElementById('onboardingModal').classList.remove('hidden');
         renderStep();
     }
@@ -852,10 +918,19 @@
         const dots = document.querySelectorAll('.step-dot');
         dots.forEach((d, i) => d.classList.toggle('active', i <= onboardingStep));
         const content = document.getElementById('modalContent');
+
         if (step.type === 'number') {
             content.innerHTML = `<input type="number" class="age-input" style="width:100%;padding:18px;font-size:28px;font-weight:700;text-align:center;background:rgba(255,255,255,0.05);border:2px solid var(--border);border-radius:16px;color:var(--text-primary);outline:none;-moz-appearance:textfield;"
-                placeholder="${step.placeholder}" min="1" max="100" value="${onboardingData[step.field] || ''}"
-                oninput="setAge(this.value)" onkeydown="if(event.key==='Enter')nextStep()">`;
+                placeholder="${step.placeholder}" min="0" value="${onboardingData[step.field] || ''}"
+                oninput="setNumber('${step.field}', this.value)" onkeydown="if(event.key==='Enter')nextStep()">`;
+        } else if (step.type === 'multi') {
+            const selected = onboardingData[step.field] || [];
+            content.innerHTML = `<div class="option-grid">${step.options.map(o =>
+                `<div class="option-card ${selected.includes(o.val) ? 'selected' : ''}" onclick="toggleMulti('${step.field}','${o.val}')">
+                    <div style="font-weight:600;margin-bottom:4px;">${o.label}</div>
+                    <div style="font-size:11px;color:var(--text-secondary);">${o.sub}</div>
+                </div>`
+            ).join('')}</div>`;
         } else {
             content.innerHTML = `<div class="option-grid">${step.options.map(o =>
                 `<div class="option-card ${onboardingData[step.field] === o.val ? 'selected' : ''}" onclick="selectOption('${step.field}','${o.val}')">
@@ -866,18 +941,29 @@
         }
         document.getElementById('prevBtn').style.display = onboardingStep > 0 ? 'block' : 'none';
         document.getElementById('nextBtn').textContent = onboardingStep === onboardingSteps.length - 1 ? '生成我的人生K线' : '下一步';
-        document.getElementById('nextBtn').disabled = !onboardingData[step.field];
+        // 校验：number需有值，option需有选择，multi至少选1个或允许不选
+        const val = onboardingData[step.field];
+        const isValid = step.type === 'multi' ? true : (val !== undefined && val !== null && val !== '');
+        document.getElementById('nextBtn').disabled = !isValid;
     }
 
-    function setAge(val) {
-        const age = parseInt(val);
-        if (age >= 1 && age <= 100) {
-            onboardingData.age = age;
+    function setNumber(field, val) {
+        const num = parseFloat(val);
+        if (!isNaN(num) && num >= 0) {
+            onboardingData[field] = num;
             document.getElementById('nextBtn').disabled = false;
         } else {
-            delete onboardingData.age;
+            delete onboardingData[field];
             document.getElementById('nextBtn').disabled = true;
         }
+    }
+
+    function toggleMulti(field, val) {
+        if (!onboardingData[field]) onboardingData[field] = [];
+        const idx = onboardingData[field].indexOf(val);
+        if (idx >= 0) onboardingData[field].splice(idx, 1);
+        else onboardingData[field].push(val);
+        renderStep();
     }
 
     function selectOption(field, val) {
@@ -905,9 +991,35 @@
         document.getElementById('onboardingModal').classList.add('hidden');
     }
 
+    function editProfile() {
+        if (!user) return;
+        // 将当前用户数据回填到问卷
+        const milestoneKeys = ['hasJob', 'salaryRaised', 'hasLicense', 'marathon', 'married', 'hasHouse', 'hasChild'];
+        onboardingData = {
+            area: user.area || 'urban',
+            age: user.age,
+            region: user.region,
+            income: user.income,
+            education: user.education,
+            annualIncome: user.annualIncome,
+            incomeGrowth: user.annualIncomeGrowth,
+            studyHours: user.studyHours,
+            healthScore: user.healthScore,
+            debtRatio: user.debtRatio,
+            milestones: milestoneKeys.filter(k => user[k])
+        };
+        onboardingStep = 0;
+        document.getElementById('stepIndicator').innerHTML = onboardingSteps.map(() => '<div class="step-dot"></div>').join('');
+        document.getElementById('onboardingModal').classList.remove('hidden');
+        renderStep();
+    }
+
     function finishOnboarding() {
         const age = onboardingData.age || 26;
+        const milestones = onboardingData.milestones || [];
         const educationBonus = { primary: 0.5, junior: 0.8, senior: 1.0, college: 1.2, bachelor: 1.3, master: 1.5 };
+        // 年收入：用户填写优先，否则按学历估算
+        const annualIncome = onboardingData.annualIncome || Math.round(80000 * educationBonus[onboardingData.education]);
         user = {
             age,
             region: onboardingData.region,
@@ -915,19 +1027,20 @@
             income: onboardingData.income,
             education: onboardingData.education,
             birthYear: new Date().getFullYear() - age,
-            annualIncome: 80000 * educationBonus[onboardingData.education],
-            annualIncomeGrowth: 0.1,
-            studyHours: 1,
-            healthScore: 70,
-            debtRatio: 0,
-            hasJob: true,
-            salaryRaised: true,
-            hasLicense: true,
-            marathon: false,
-            married: false,
-            hasHouse: false,
-            hasChild: false,
-            investments: [],
+            annualIncome,
+            annualIncomeGrowth: Number(onboardingData.incomeGrowth) || 0.1,
+            studyHours: Number(onboardingData.studyHours) || 0,
+            healthScore: Number(onboardingData.healthScore) || 70,
+            debtRatio: Number(onboardingData.debtRatio) || 0,
+            hasJob: milestones.includes('hasJob'),
+            salaryRaised: milestones.includes('salaryRaised'),
+            hasLicense: milestones.includes('hasLicense'),
+            marathon: milestones.includes('marathon'),
+            married: milestones.includes('married'),
+            hasHouse: milestones.includes('hasHouse'),
+            hasChild: milestones.includes('hasChild'),
+            investments: user ? user.investments : [],
+            setbacks: user ? user.setbacks : [],
             history: generateHistory({
                 age,
                 region: onboardingData.region,
@@ -1414,6 +1527,7 @@
             user = JSON.parse(saved);
             user.investments = user.investments.map(i => ({ ...i, date: new Date(i.date) }));
             if (user.setbacks) user.setbacks = user.setbacks.map(s => ({ ...s, date: new Date(s.date) }));
+            showDashboard();
         } catch(e) {}
     }
     </script>
