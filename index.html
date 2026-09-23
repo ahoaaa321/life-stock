@@ -5,23 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>人生即股票 - 让每一笔自我投资都看得见回报</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0a0e27;
             --bg-secondary: #131840;
-            --text-primary: #ffffff;
+            --bg-card: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.1);
+            --text-primary: #fff;
             --text-secondary: #a0a3c0;
             --accent-blue: #5e6fff;
             --accent-purple: #9d6fff;
-            --accent-glow: rgba(94, 111, 255, 0.3);
+            --accent-green: #4ade80;
+            --accent-red: #f87171;
+            --accent-glow: rgba(94,111,255,0.3);
             --gradient: linear-gradient(135deg, #5e6fff 0%, #9d6fff 100%);
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
             background: var(--bg-primary);
@@ -29,581 +27,795 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
+        .hidden { display: none !important; }
 
-        /* ========== Hero Section ========== */
+        /* ========== Hero ========== */
         .hero {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 0 24px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; padding: 0 24px;
             background: radial-gradient(ellipse at center, #131840 0%, #0a0e27 70%);
         }
-
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 1200px;
-            height: 1200px;
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%); width: 1200px; height: 1200px;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            opacity: 0.4;
-            pointer-events: none;
-            animation: pulse 4s ease-in-out infinite;
+            opacity: 0.4; pointer-events: none; animation: pulse 4s ease-in-out infinite;
         }
-
         @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+            0%,100% { opacity: 0.3; transform: translate(-50%,-50%) scale(1); }
+            50% { opacity: 0.5; transform: translate(-50%,-50%) scale(1.1); }
         }
-
-        .hero-content {
-            max-width: 1200px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
+        .hero-content { max-width: 1200px; width: 100%; text-align: center; position: relative; z-index: 1; }
         .brand {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 24px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
+            font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 24px;
+            opacity: 0; animation: fadeInUp 1s ease-out 0.2s forwards;
         }
-
         .hero h1 {
-            font-size: clamp(40px, 8vw, 72px);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.4s forwards;
+            font-size: clamp(40px, 8vw, 72px); font-weight: 700; line-height: 1.1;
+            margin-bottom: 24px; letter-spacing: -0.02em;
+            opacity: 0; animation: fadeInUp 1s ease-out 0.4s forwards;
         }
-
         .hero .subtitle {
-            font-size: clamp(18px, 3vw, 24px);
-            color: var(--text-secondary);
-            margin-bottom: 48px;
-            font-weight: 400;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.6s forwards;
+            font-size: clamp(18px, 3vw, 24px); color: var(--text-secondary);
+            margin-bottom: 48px; font-weight: 400;
+            opacity: 0; animation: fadeInUp 1s ease-out 0.6s forwards;
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .cta-button {
-            display: inline-block;
-            padding: 16px 48px;
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-            background: var(--gradient);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.8s forwards;
+            display: inline-block; padding: 16px 48px; font-size: 18px; font-weight: 600;
+            color: white; background: var(--gradient); border: none; border-radius: 50px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);
+            opacity: 0; animation: fadeInUp 1s ease-out 0.8s forwards;
         }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
 
         /* ========== Stock Card ========== */
         .stock-card {
-            margin-top: 64px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1s forwards;
+            margin-top: 64px; background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 24px; padding: 40px;
+            max-width: 500px; margin-left: auto; margin-right: auto;
+            opacity: 0; animation: fadeInUp 1s ease-out 1s forwards;
         }
+        .stock-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .stock-code { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+        .stock-tag { padding: 4px 12px; background: var(--gradient); border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .stock-price { font-size: 56px; font-weight: 700; margin-bottom: 8px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stock-change { font-size: 18px; color: var(--accent-green); font-weight: 600; margin-bottom: 32px; }
+        .stock-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .metric { text-align: left; }
+        .metric-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .metric-value { font-size: 20px; font-weight: 600; }
 
-        .stock-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
+        /* ========== Sections ========== */
+        section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: clamp(32px, 5vw, 48px); font-weight: 700; text-align: center; margin-bottom: 24px; letter-spacing: -0.02em; }
+        .section-subtitle { font-size: 18px; color: var(--text-secondary); text-align: center; margin-bottom: 64px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .feature { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: all 0.3s ease; cursor: pointer; }
+        .feature:hover { transform: translateY(-8px); border-color: rgba(94,111,255,0.3); box-shadow: 0 12px 40px rgba(94,111,255,0.15); }
+        .feature-icon { font-size: 48px; margin-bottom: 16px; }
+        .feature h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .feature p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .signup-section { background: var(--bg-secondary); border-radius: 32px; padding: 80px 48px; text-align: center; margin: 120px 24px; }
+        .signup-form { max-width: 480px; margin: 48px auto 0; display: flex; gap: 16px; }
+        .signup-form input { flex: 1; padding: 16px 24px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 50px; color: var(--text-primary); font-size: 16px; outline: none; transition: all 0.3s ease; }
+        .signup-form input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px var(--accent-glow); }
+        .signup-form button { padding: 16px 32px; background: var(--gradient); border: none; border-radius: 50px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+        footer { padding: 48px 24px; text-align: center; color: var(--text-secondary); font-size: 14px; border-top: 1px solid var(--border); }
 
-        .stock-code {
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        /* ========== Modal ========== */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .modal { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 24px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 40px; position: relative; }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-secondary); font-size: 28px; cursor: pointer; }
+        .modal-close:hover { color: var(--text-primary); }
+        .modal h2 { font-size: 28px; margin-bottom: 8px; }
+        .modal-desc { color: var(--text-secondary); margin-bottom: 32px; }
+        .form-group { margin-bottom: 24px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-primary); }
+        .option-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .option-card { padding: 16px; background: rgba(255,255,255,0.03); border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; text-align: center; font-size: 14px; }
+        .option-card:hover { border-color: var(--accent-blue); }
+        .option-card.selected { border-color: var(--accent-blue); background: rgba(94,111,255,0.1); box-shadow: 0 0 0 2px var(--accent-glow); }
+        .form-actions { display: flex; gap: 12px; margin-top: 32px; }
+        .btn-primary { flex: 1; padding: 14px; background: var(--gradient); border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn-secondary:hover { border-color: var(--accent-blue); }
+        .step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
+        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: all 0.3s ease; }
+        .step-dot.active { background: var(--gradient); width: 30px; border-radius: 5px; }
 
-        .stock-tag {
-            padding: 4px 12px;
-            background: var(--gradient);
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+        /* ========== Dashboard ========== */
+        .dashboard { display: none; padding: 24px; max-width: 1400px; margin: 0 auto; }
+        .dashboard.active { display: block; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+        .dash-brand { font-size: 20px; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .dash-actions { display: flex; gap: 12px; }
+        .dash-btn { padding: 10px 20px; background: var(--gradient); border: none; border-radius: 10px; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .dash-btn:hover { transform: translateY(-1px); }
+        .dash-btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
+        .dash-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+        .dash-card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 
-        .stock-price {
-            font-size: 56px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* K线图 */
+        #klineCanvas { width: 100%; height: 300px; display: block; }
+        .kline-legend { display: flex; gap: 16px; margin-top: 12px; font-size: 12px; color: var(--text-secondary); }
+        .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
 
-        .stock-change {
-            font-size: 18px;
-            color: #4ade80;
-            font-weight: 600;
-            margin-bottom: 32px;
-        }
+        /* 记投资 */
+        .invest-form { display: flex; flex-direction: column; gap: 12px; }
+        .invest-input { padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 14px; outline: none; }
+        .invest-input:focus { border-color: var(--accent-blue); }
+        .invest-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .invest-type { padding: 10px; text-align: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+        .invest-type.selected { border-color: var(--accent-blue); background: rgba(94,111,255,0.1); }
 
-        .stock-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
+        /* 里程碑 */
+        .milestone-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; }
+        .milestone-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; }
+        .milestone-item.locked { opacity: 0.4; }
+        .milestone-icon { font-size: 24px; }
+        .milestone-info { flex: 1; }
+        .milestone-name { font-size: 14px; font-weight: 600; }
+        .milestone-desc { font-size: 12px; color: var(--text-secondary); }
+        .milestone-bonus { font-size: 12px; color: var(--accent-green); font-weight: 600; }
 
-        .metric {
-            text-align: left;
-        }
+        /* 财报 */
+        .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .report-item { padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; }
+        .report-label { font-size: 11px; color: var(--text-secondary); }
+        .report-value { font-size: 18px; font-weight: 700; }
+        .report-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+        .report-bar-fill { height: 100%; background: var(--gradient); border-radius: 3px; transition: width 1s ease; }
 
-        .metric-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
+        /* 投资记录 */
+        .invest-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .invest-record { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; font-size: 13px; }
+        .invest-record .type { color: var(--accent-blue); font-weight: 600; }
+        .invest-record .amount { font-weight: 600; }
+        .invest-record .date { color: var(--text-secondary); font-size: 11px; }
 
-        .metric-value {
-            font-size: 20px;
-            font-weight: 600;
-        }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 12px 24px; background: var(--gradient); border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 2000; animation: toastIn 0.3s ease; }
+        @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-        /* ========== K线图动画 ========== */
-        .kline-container {
-            margin-top: 40px;
-            height: 200px;
-            position: relative;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 1.2s forwards;
-        }
-
-        .kline {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .kline-bar {
-            fill: none;
-            stroke: var(--accent-blue);
-            stroke-width: 2;
-            filter: drop-shadow(0 0 8px var(--accent-glow));
-            animation: klineGrow 2s ease-out forwards;
-            transform-origin: bottom;
-            transform: scaleY(0);
-        }
-
-        @keyframes klineGrow {
-            to { transform: scaleY(1); }
-        }
-
-        /* ========== Section通用样式 ========== */
-        section {
-            padding: 120px 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        /* ========== 功能特色 ========== */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-
-        .feature {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 32px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .feature:hover {
-            transform: translateY(-8px);
-            border-color: rgba(94, 111, 255, 0.3);
-            box-shadow: 0 12px 40px rgba(94, 111, 255, 0.15);
-        }
-
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .feature h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .feature p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* ========== 用户场景 ========== */
-        .personas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 48px;
-        }
-
-        .persona {
-            text-align: center;
-        }
-
-        .persona-avatar {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 24px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            box-shadow: 0 8px 32px var(--accent-glow);
-        }
-
-        .persona h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .persona p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* ========== 预约表单 ========== */
-        .signup-section {
-            background: var(--bg-secondary);
-            border-radius: 32px;
-            padding: 80px 48px;
-            text-align: center;
-            margin: 120px 24px;
-        }
-
-        .signup-form {
-            max-width: 480px;
-            margin: 48px auto 0;
-            display: flex;
-            gap: 16px;
-        }
-
-        .signup-form input {
-            flex: 1;
-            padding: 16px 24px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            color: var(--text-primary);
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .signup-form input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 4px var(--accent-glow);
-        }
-
-        .signup-form button {
-            padding: 16px 32px;
-            background: var(--gradient);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .signup-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--accent-glow);
-        }
-
-        /* ========== Footer ========== */
-        footer {
-            padding: 48px 24px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* ========== 响应式 ========== */
         @media (max-width: 768px) {
-            .stock-card {
-                padding: 32px 24px;
-            }
-
-            .stock-price {
-                font-size: 42px;
-            }
-
-            .signup-form {
-                flex-direction: column;
-            }
-
-            section {
-                padding: 80px 24px;
-            }
+            .stock-card { padding: 32px 24px; }
+            .stock-price { font-size: 42px; }
+            .signup-form { flex-direction: column; }
+            section { padding: 80px 24px; }
+            .modal { padding: 24px; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="brand">人生即股票</div>
-            <h1>让每一笔自我投资<br>都看得见回报</h1>
-            <p class="subtitle">把人生当成一只股票，父母的投入是股东注资，你的价值是股价</p>
-            <button class="cta-button" onclick="document.getElementById('signup').scrollIntoView({behavior: 'smooth'})">
-                预约体验
-            </button>
-
-            <!-- 股票行情卡 -->
-            <div class="stock-card">
-                <div class="stock-card-header">
-                    <div class="stock-code">LIFE-0026</div>
-                    <div class="stock-tag">成长股</div>
-                </div>
-                <div class="stock-price">¥909.6</div>
-                <div class="stock-change">+810% ↗</div>
-                <div class="stock-metrics">
-                    <div class="metric">
-                        <div class="metric-label">BV 账面价值</div>
-                        <div class="metric-value">472.3</div>
+    <!-- 首页 -->
+    <div id="homePage">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="brand">人生即股票</div>
+                <h1>让每一笔自我投资<br>都看得见回报</h1>
+                <p class="subtitle">把人生当成一只股票，父母的投入是股东注资，你的价值是股价</p>
+                <button class="cta-button" onclick="startOnboarding()">立即体验</button>
+                <div class="stock-card">
+                    <div class="stock-card-header">
+                        <div class="stock-code">LIFE-0026</div>
+                        <div class="stock-tag">成长股</div>
                     </div>
-                    <div class="metric">
-                        <div class="metric-label">EPS 每股收益</div>
-                        <div class="metric-value">25.0</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">ROE 收益率</div>
-                        <div class="metric-value">5.3%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">PE 市盈率</div>
-                        <div class="metric-value">36.4倍</div>
+                    <div class="stock-price">¥909.6</div>
+                    <div class="stock-change">+810% ↗</div>
+                    <div class="stock-metrics">
+                        <div class="metric"><div class="metric-label">BV 账面价值</div><div class="metric-value">472.3</div></div>
+                        <div class="metric"><div class="metric-label">EPS 每股收益</div><div class="metric-value">25.0</div></div>
+                        <div class="metric"><div class="metric-label">ROE 收益率</div><div class="metric-value">5.3%</div></div>
+                        <div class="metric"><div class="metric-label">PE 市盈率</div><div class="metric-value">36.4倍</div></div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- K线图 -->
-                <div class="kline-container">
-                    <svg class="kline" viewBox="0 0 400 200" preserveAspectRatio="none">
-                        <polyline class="kline-bar" points="0,180 50,160 100,140 150,120 200,100 250,110 300,90 350,95 400,80" />
-                    </svg>
+        <section>
+            <h2 class="section-title">核心功能</h2>
+            <p class="section-subtitle">用数据量化成长，用金融思维规划人生</p>
+            <div class="features">
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🎯</div><h3>3问生成历史曲线</h3><p>回答地区、家庭、学历3个问题，基于国家统计局数据生成0-18岁投入曲线，精度±4%</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📈</div><h3>实时人生K线</h3><p>股价实时反映成长，每次学习、健身、技能提升都会推动股价上涨</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">🏆</div><h3>里程碑系统</h3><p>从"小学入学"到"三十而立"，每个人生节点都是股价跃升的机会</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">📊</div><h3>个人财报</h3><p>生成年度财报，ROI、投入分类、风险提示，像上市公司一样审视自己</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">💡</div><h3>记一笔投资</h3><p>记录每一笔对自己的投入，实时看到股价变化</p></div>
+                <div class="feature" onclick="startOnboarding()"><div class="feature-icon">👨‍👩‍👧</div><h3>父母视角</h3><p>让孩子看到父母的投入，用数据代替说教</p></div>
+            </div>
+        </section>
+
+        <section class="signup-section" id="signup">
+            <h2 class="section-title">抢先体验</h2>
+            <p class="section-subtitle">成为第一批看到自己"人生股价"的人</p>
+            <form class="signup-form" onsubmit="handleSubmit(event)">
+                <input type="email" placeholder="输入你的邮箱" required>
+                <button type="submit">预约</button>
+            </form>
+            <p style="margin-top: 24px; font-size: 14px; color: var(--text-secondary);">我们承诺不会发送垃圾邮件，只会在产品上线时通知你</p>
+        </section>
+
+        <footer><p>© 2025 人生即股票 · 让每一笔自我投资都看得见回报</p></footer>
+    </div>
+
+    <!-- 仪表盘 -->
+    <div class="dashboard" id="dashboard">
+        <div class="dash-header">
+            <div class="dash-brand">人生即股票</div>
+            <div class="dash-actions">
+                <button class="dash-btn ghost" onclick="resetAll()">重置</button>
+                <button class="dash-btn ghost" onclick="backToHome()">返回首页</button>
+            </div>
+        </div>
+        <div class="dash-grid">
+            <div class="dash-card" style="grid-column: span 2;">
+                <div class="dash-card-title">📈 人生K线 <span id="klineAge" style="font-size:13px;color:var(--text-secondary);font-weight:normal;"></span></div>
+                <canvas id="klineCanvas"></canvas>
+                <div class="kline-legend">
+                    <span><span class="legend-dot" style="background:var(--accent-green)"></span>里程碑节点</span>
+                    <span><span class="legend-dot" style="background:var(--accent-blue)"></span>股价走势</span>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">💰 当前股价</div>
+                <div class="stock-price" id="dashPrice">¥0</div>
+                <div class="stock-change" id="dashChange">+0%</div>
+                <div class="stock-metrics" style="margin-top:20px;">
+                    <div class="metric"><div class="metric-label">BV 账面价值</div><div class="metric-value" id="dashBV">0</div></div>
+                    <div class="metric"><div class="metric-label">EPS 每股收益</div><div class="metric-value" id="dashEPS">0</div></div>
+                    <div class="metric"><div class="metric-label">ROE 收益率</div><div class="metric-value" id="dashROE">0%</div></div>
+                    <div class="metric"><div class="metric-label">PE 市盈率</div><div class="metric-value" id="dashPE">0倍</div></div>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">💡 记一笔投资</div>
+                <div class="invest-form">
+                    <div class="form-label">投入类型</div>
+                    <div class="invest-types" id="investTypes">
+                        <div class="invest-type selected" data-type="education">🎓 教育</div>
+                        <div class="invest-type" data-type="skill">📚 技能</div>
+                        <div class="invest-type" data-type="health">💪 健康</div>
+                        <div class="invest-type" data-type="network">🤝 人脉</div>
+                        <div class="invest-type" data-type="entertainment">🎮 娱乐</div>
+                        <div class="invest-type" data-type="other">📦 其他</div>
+                    </div>
+                    <div class="form-label">金额（元）</div>
+                    <input type="number" class="invest-input" id="investAmount" placeholder="例如：5000">
+                    <div class="form-label">描述（可选）</div>
+                    <input type="text" class="invest-input" id="investDesc" placeholder="例如：Python编程培训">
+                    <button class="btn-primary" onclick="addInvestment()">添加投资</button>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">🏆 里程碑 <span style="font-size:13px;color:var(--text-secondary);font-weight:normal;" id="milestoneCount">(0/15)</span></div>
+                <div class="milestone-list" id="milestoneList"></div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">📊 个人财报</div>
+                <div class="report-grid">
+                    <div class="report-item"><div class="report-label">累计投入</div><div class="report-value" id="reportTotal">¥0</div></div>
+                    <div class="report-item"><div class="report-label">本年投入</div><div class="report-value" id="reportYear">¥0</div></div>
+                    <div class="report-item"><div class="report-label">投资回报(ROI)</div><div class="report-value" id="reportROI">0%</div><div class="report-bar"><div class="report-bar-fill" id="roiBar" style="width:0%"></div></div></div>
+                    <div class="report-item"><div class="report-label">成长系数</div><div class="report-value" id="reportGrowth">1.0</div><div class="report-bar"><div class="report-bar-fill" id="growthBar" style="width:50%"></div></div></div>
+                    <div class="report-item"><div class="report-label">资产负债率</div><div class="report-value" id="reportDebt">0%</div></div>
+                    <div class="report-item"><div class="report-label">健康评分</div><div class="report-value" id="reportHealth">0</div></div>
+                </div>
+            </div>
+
+            <div class="dash-card" style="grid-column: span 2;">
+                <div class="dash-card-title">📋 投资记录</div>
+                <div class="invest-list" id="investList">
+                    <div style="text-align:center;color:var(--text-secondary);padding:40px;">还没有投资记录，记一笔试试吧</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- 功能特色 -->
-    <section>
-        <h2 class="section-title">核心功能</h2>
-        <p class="section-subtitle">用数据量化成长，用金融思维规划人生</p>
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🎯</div>
-                <h3>3问生成历史曲线</h3>
-                <p>只需回答地区、家庭、学历3个问题，基于国家统计局数据生成你0-18岁的投入曲线，精度±4%</p>
+    <!-- 3问表单 -->
+    <div class="modal-overlay hidden" id="onboardingModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
             </div>
-            <div class="feature">
-                <div class="feature-icon">📈</div>
-                <h3>实时人生K线</h3>
-                <p>股价实时反映你的成长，每次学习、健身、技能提升都会推动股价上涨</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🏆</div>
-                <h3>里程碑系统</h3>
-                <p>从"小学入学"到"三十而立"，每个人生节点都是一次股价跃升的机会</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">📊</div>
-                <h3>个人财报</h3>
-                <p>生成年度财报，ROI、投入分类、风险提示，像上市公司一样审视自己</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🔮</div>
-                <h3>未来预测</h3>
-                <p>蒙特卡洛模拟未来3年股价走势，告诉你"保持现在的节奏，3年后值多少"</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">👨‍👩‍👧</div>
-                <h3>父母视角</h3>
-                <p>让孩子看到父母的投入，用数据代替说教，理解"爱"的分量</p>
+            <h2 id="modalTitle">第1步：你来自哪里？</h2>
+            <p class="modal-desc" id="modalDesc">选择你成长的地区，这会影响历史投入估算</p>
+            <div id="modalContent"></div>
+            <div class="form-actions">
+                <button class="btn-secondary" id="prevBtn" onclick="prevStep()" style="display:none;">上一步</button>
+                <button class="btn-primary" id="nextBtn" onclick="nextStep()">下一步</button>
             </div>
         </div>
-    </section>
-
-    <!-- 用户场景 -->
-    <section>
-        <h2 class="section-title">为谁而做</h2>
-        <p class="section-subtitle">两种人生阶段，同一个目标：看清自己的价值</p>
-        <div class="personas">
-            <div class="persona">
-                <div class="persona-avatar">👨‍💻</div>
-                <h3>22-35岁 · 自我成长者</h3>
-                <p>正在投资自己，但不知道投入是否值得<br>需要一个可视化的反馈系统<br>让每一分钱、每一分钟都看得见回报</p>
-            </div>
-            <div class="persona">
-                <div class="persona-avatar">👨‍👩‍👧</div>
-                <h3>35-50岁 · 智慧家长</h3>
-                <p>为孩子投入了大量时间和金钱<br>想让孩子理解父母的用心<br>需要一个直观的方式展示"投入与爱"</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 预约收集 -->
-    <section class="signup-section" id="signup">
-        <h2 class="section-title">抢先体验</h2>
-        <p class="section-subtitle">成为第一批看到自己"人生股价"的人</p>
-        <form class="signup-form" onsubmit="handleSubmit(event)">
-            <input type="email" placeholder="输入你的邮箱" required>
-            <button type="submit">预约</button>
-        </form>
-        <p style="margin-top: 24px; font-size: 14px; color: var(--text-secondary);">
-            我们承诺不会发送垃圾邮件，只会在产品上线时通知你
-        </p>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 人生即股票 · 让每一笔自我投资都看得见回报</p>
-    </footer>
+    </div>
 
     <script>
-        // 预约表单提交
-        function handleSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            alert(`感谢预约！我们会在产品上线时通知你：${email}`);
-            event.target.reset();
+    // ============ 核心算法（移植自Java） ============
+    const Constants = {
+        IPO_PRICE: 100,
+        NORMALIZATION_K: 1000,
+        TYPE_WEIGHTS: { education: 1.5, skill: 1.3, health: 1.1, network: 1.0, entertainment: 0.3, other: 0.5 },
+        TYPE_HALF_LIFE: { education: 10, skill: 5, health: 4, network: 3, entertainment: 1, other: 2 },
+        REGION_COEF: { tier1: 1.8, new_tier1: 1.4, tier2: 1.1, tier3: 0.8 },
+        AREA_COEF: { urban: 1.0, rural: 0.68 },
+        INCOME_COEF: { low: 0.35, below_avg: 0.65, avg: 1.0, above_avg: 1.55, high: 2.9 },
+        STAGE_COEF: [
+            { age: 6, coef: 0.3 }, { age: 12, coef: 0.5 }, { age: 18, coef: 0.9 },
+            { age: 25, coef: 1.1 }, { age: 35, coef: 1.5 }, { age: 50, coef: 1.3 }, { age: 200, coef: 0.8 }
+        ],
+        AGE_SPEND: {
+            '0-2': 24538, '3-5': 36538, '6-14': 27007, '15-17': 29007,
+            '18-22': 29135
         }
+    };
 
-        // K线图呼吸动画
-        const klineBar = document.querySelector('.kline-bar');
-        let direction = 1;
-        setInterval(() => {
-            const points = klineBar.getAttribute('points').split(' ').map(p => {
-                const [x, y] = p.split(',').map(Number);
-                return `${x},${y + direction * (Math.random() * 4 - 2)}`;
-            }).join(' ');
-            klineBar.setAttribute('points', points);
-            if (Math.random() > 0.7) direction *= -1;
-        }, 2000);
+    const MILESTONES = [
+        { id: 'birth', name: '出生', icon: '👶', desc: '人生IPO', bonus: 20, condition: p => p.age >= 0 },
+        { id: 'school', name: '小学入学', icon: '🎒', desc: '基础教育开始', bonus: 10, condition: p => p.age >= 6 },
+        { id: 'middle', name: '初中毕业', icon: '📖', desc: '义务教育完成', bonus: 15, condition: p => p.age >= 15 },
+        { id: 'highschool', name: '高中毕业', icon: '🎓', desc: 'Pre-IPO完成', bonus: 20, condition: p => p.age >= 18 },
+        { id: 'college', name: '大学毕业', icon: '🎓', desc: 'IPO上市', bonus: 30, condition: p => p.age >= 22 },
+        { id: 'firstjob', name: '第一份工作', icon: '💼', desc: '开始盈利', bonus: 30, condition: p => p.hasJob },
+        { id: 'firstraise', name: '第一次涨薪', icon: '💰', desc: '业绩超预期', bonus: 15, condition: p => p.salaryRaised },
+        { id: 'license', name: '拿到驾照', icon: '🚗', desc: '技能+1', bonus: 5, condition: p => p.hasLicense },
+        { id: 'marathon', name: '跑完马拉松', icon: '🏃', desc: '健康资产', bonus: 8, condition: p => p.marathon },
+        { id: 'marriage', name: '结婚', icon: '💍', desc: '重大并购', bonus: 20, condition: p => p.married },
+        { id: 'home', name: '买房', icon: '🏠', desc: '固定资产', bonus: 25, condition: p => p.hasHouse },
+        { id: 'child', name: '为人父母', icon: '👶', desc: '社会责任', bonus: 15, condition: p => p.hasChild },
+        { id: '30', name: '三十而立', icon: '🎯', desc: '人生分水岭', bonus: 25, condition: p => p.age >= 30 },
+        { id: '100k', name: '十万投入', icon: '💎', desc: '累计投入超10万', bonus: 15, condition: p => p.totalInvest >= 100000 },
+        { id: '500k', name: '五十万投入', icon: '👑', desc: '累计投入超50万', bonus: 30, condition: p => p.totalInvest >= 500000 }
+    ];
 
-        // 滚动时数字递增动画
-        const observerOptions = {
-            threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.dataset.animated) {
-                    entry.target.dataset.animated = 'true';
-                    animateValue(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        function animateValue(element) {
-            const text = element.textContent;
-            const isPrice = element.classList.contains('stock-price');
-            const finalValue = parseFloat(text.replace(/[^0-9.]/g, ''));
-
-            if (isNaN(finalValue)) return;
-
-            const duration = 2000;
-            const startTime = Date.now();
-            const startValue = isPrice ? 100 : 0;
-
-            function update() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const currentValue = startValue + (finalValue - startValue) * progress;
-
-                if (isPrice) {
-                    element.textContent = `¥${currentValue.toFixed(1)}`;
-                } else {
-                    element.textContent = text.replace(/[0-9.]+/, currentValue.toFixed(1));
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-
-            update();
+    // ============ 数据填充算法 ============
+    function generateHistory(profile) {
+        const coef = Constants.REGION_COEF[profile.region] * Constants.AREA_COEF[profile.area] * Constants.INCOME_COEF[profile.income];
+        const history = [];
+        for (let age = 0; age <= profile.age; age++) {
+            let annualSpend = 0;
+            if (age <= 2) annualSpend = Constants.AGE_SPEND['0-2'];
+            else if (age <= 5) annualSpend = Constants.AGE_SPEND['3-5'];
+            else if (age <= 14) annualSpend = Constants.AGE_SPEND['6-14'];
+            else if (age <= 17) annualSpend = Constants.AGE_SPEND['15-17'];
+            else annualSpend = Constants.AGE_SPEND['18-22'];
+            annualSpend = annualSpend * coef * (0.9 + Math.random() * 0.2);
+            history.push({ age, invest: annualSpend, type: 'education' });
         }
+        if (profile.anchor) {
+            const idx = profile.anchor.age;
+            if (history[idx]) history[idx].invest = profile.anchor.amount;
+        }
+        return history;
+    }
 
-        // 观察所有需要动画的元素
-        document.querySelectorAll('.stock-price, .metric-value').forEach(el => {
-            observer.observe(el);
+    // ============ 股价计算 ============
+    function getStageCoef(age) {
+        for (const s of Constants.STAGE_COEF) {
+            if (age <= s.age) return s.coef;
+        }
+        return 0.8;
+    }
+
+    function decay(invest, years, type) {
+        const halfLife = Constants.TYPE_HALF_LIFE[type] || 5;
+        return invest * Math.exp(-0.693 * years / halfLife);
+    }
+
+    function calculateStock(user) {
+        const now = new Date();
+        let bv = 0;
+        user.history.forEach(h => {
+            const years = user.age - h.age;
+            const w = Constants.TYPE_WEIGHTS[h.type] || 1;
+            bv += (h.invest / Constants.NORMALIZATION_K) * w * decay(1, Math.max(0, years), h.type);
         });
+        user.investments.forEach(inv => {
+            const years = (now - inv.date) / (365.25 * 24 * 3600 * 1000);
+            const w = Constants.TYPE_WEIGHTS[inv.type] || 1;
+            bv += (inv.amount / Constants.NORMALIZATION_K) * w * decay(1, Math.max(0, years), inv.type);
+        });
+
+        const stageCoef = getStageCoef(user.age);
+        const milestoneBonus = MILESTONES.filter(m => m.condition(user)).reduce((s, m) => s + m.bonus, 0);
+        const eps = (user.annualIncome || 0) / 10000;
+        const roe = bv > 0 ? (eps / bv * 100) : 0;
+
+        const growthCoef = Math.min(1.5, 1 + (user.annualIncomeGrowth || 0) * 0.5 + (user.studyHours || 0) * 0.02);
+        const qualityCoef = 0.85 + (user.healthScore || 50) / 200;
+        const riskDiscount = Math.min(0.3, (user.debtRatio || 0) * 0.3);
+
+        const price = (Constants.IPO_PRICE + bv * stageCoef + milestoneBonus) * growthCoef * qualityCoef * (1 - riskDiscount);
+        const change = ((price - Constants.IPO_PRICE) / Constants.IPO_PRICE * 100);
+        const pe = eps > 0 ? Math.round(price / eps * 10) / 10 : 0;
+
+        return {
+            price: Math.round(price * 10) / 10,
+            change: Math.round(change * 10) / 10,
+            bv: Math.round(bv * 10) / 10,
+            eps: Math.round(eps * 100) / 100,
+            roe: Math.round(roe * 10) / 10,
+            pe: pe + '倍',
+            milestoneBonus,
+            growthCoef: Math.round(growthCoef * 100) / 100,
+            qualityCoef: Math.round(qualityCoef * 100) / 100
+        };
+    }
+
+    function generateKline(user) {
+        const points = [];
+        let cumulative = 0;
+        for (let age = 0; age <= user.age; age++) {
+            const yearHistory = user.history.filter(h => h.age === age);
+            let yearInvest = yearHistory.reduce((s, h) => s + h.invest, 0);
+            const yearInv = user.investments.filter(inv => {
+                const invAge = Math.floor((inv.date - new Date(user.birthYear + age, 0, 1)) / (365.25 * 24 * 3600 * 1000));
+                return invAge === age;
+            });
+            yearInvest += yearInv.reduce((s, i) => s + i.amount, 0);
+            cumulative += yearInvest;
+
+            const tempUser = { ...user, age, history: user.history.filter(h => h.age <= age), investments: yearInv };
+            const snapshot = calculateStock(tempUser);
+            points.push({ age, price: snapshot.price, invest: yearInvest, total: cumulative });
+        }
+        return points;
+    }
+
+    // ============ K线图绘制 ============
+    function drawKline(points) {
+        const canvas = document.getElementById('klineCanvas');
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * 2;
+        canvas.height = rect.height * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(2, 2);
+        const w = rect.width, h = rect.height;
+        const pad = { l: 50, r: 20, t: 20, b: 40 };
+        const chartW = w - pad.l - pad.r;
+        const chartH = h - pad.t - pad.b;
+
+        if (points.length < 2) return;
+        const prices = points.map(p => p.price);
+        const minP = Math.min(...prices) * 0.95;
+        const maxP = Math.max(...prices) * 1.05;
+        const range = maxP - minP || 1;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.t + (chartH / 4) * i;
+            ctx.beginPath();
+            ctx.moveTo(pad.l, y);
+            ctx.lineTo(w - pad.r, y);
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(160,163,192,0.6)';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(Math.round(maxP - (range / 4) * i), 5, y + 4);
+        }
+
+        const stepX = chartW / (points.length - 1);
+        const grad = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
+        grad.addColorStop(0, 'rgba(94,111,255,0.3)');
+        grad.addColorStop(1, 'rgba(94,111,255,0)');
+        ctx.beginPath();
+        ctx.moveTo(pad.l, h - pad.b);
+        points.forEach((p, i) => {
+            const x = pad.l + stepX * i;
+            const y = pad.t + chartH * (1 - (p.price - minP) / range);
+            ctx.lineTo(x, y);
+        });
+        ctx.lineTo(pad.l + chartW, h - pad.b);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        ctx.beginPath();
+        points.forEach((p, i) => {
+            const x = pad.l + stepX * i;
+            const y = pad.t + chartH * (1 - (p.price - minP) / range);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#5e6fff';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        const milestoneAges = [0, 6, 15, 18, 22, 30];
+        points.forEach((p, i) => {
+            if (milestoneAges.includes(p.age)) {
+                const x = pad.l + stepX * i;
+                const y = pad.t + chartH * (1 - (p.price - minP) / range);
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#4ade80';
+                ctx.fill();
+                ctx.strokeStyle = '#0a0e27';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        });
+
+        const labelStep = Math.max(1, Math.floor(points.length / 8));
+        ctx.fillStyle = 'rgba(160,163,192,0.6)';
+        ctx.font = '11px sans-serif';
+        points.forEach((p, i) => {
+            if (i % labelStep === 0 || i === points.length - 1) {
+                const x = pad.l + stepX * i;
+                ctx.fillText(p.age + '岁', x - 10, h - pad.b + 20);
+            }
+        });
+
+        const last = points[points.length - 1];
+        document.getElementById('klineAge').textContent = `（${last.age}岁，当前股价 ¥${last.price}）`;
+    }
+
+    // ============ 状态管理 ============
+    let user = null;
+    let onboardingStep = 0;
+    let onboardingData = {};
+    let selectedInvestType = 'education';
+
+    const onboardingSteps = [
+        {
+            title: '第1步：你来自哪里？',
+            desc: '选择你成长的地区，这会影响历史投入估算',
+            field: 'region',
+            options: [
+                { val: 'tier1', label: '一线城市', sub: '北上广深' },
+                { val: 'new_tier1', label: '新一线', sub: '杭州/成都/武汉等' },
+                { val: 'tier2', label: '二线城市', sub: '省会城市' },
+                { val: 'tier3', label: '三四线', sub: '其他城市' }
+            ]
+        },
+        {
+            title: '第2步：家庭条件？',
+            desc: '和同龄人相比，你家的经济条件如何？',
+            field: 'income',
+            options: [
+                { val: 'low', label: '远低于平均', sub: '10%分位' },
+                { val: 'below_avg', label: '低于平均', sub: '30%分位' },
+                { val: 'avg', label: '差不多', sub: '50%分位' },
+                { val: 'above_avg', label: '高于平均', sub: '70%分位' },
+                { val: 'high', label: '远高于平均', sub: '90%分位' }
+            ]
+        },
+        {
+            title: '第3步：你的学历？',
+            desc: '这会影响教育投入估算和当前股价',
+            field: 'education',
+            options: [
+                { val: 'primary', label: '小学及以下', sub: '投入较低' },
+                { val: 'junior', label: '初中', sub: '义务教育' },
+                { val: 'senior', label: '高中/中专', sub: '中等教育' },
+                { val: 'college', label: '大专', sub: '高等教育' },
+                { val: 'bachelor', label: '本科', sub: '本科教育' },
+                { val: 'master', label: '硕士及以上', sub: '高学历' }
+            ]
+        }
+    ];
+
+    function startOnboarding() {
+        onboardingStep = 0;
+        onboardingData = { area: 'urban' };
+        document.getElementById('onboardingModal').classList.remove('hidden');
+        renderStep();
+    }
+
+    function renderStep() {
+        const step = onboardingSteps[onboardingStep];
+        document.getElementById('modalTitle').textContent = step.title;
+        document.getElementById('modalDesc').textContent = step.desc;
+        const dots = document.querySelectorAll('.step-dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i <= onboardingStep));
+        const content = document.getElementById('modalContent');
+        content.innerHTML = `<div class="option-grid">${step.options.map(o =>
+            `<div class="option-card ${onboardingData[step.field] === o.val ? 'selected' : ''}" onclick="selectOption('${step.field}','${o.val}')">
+                <div style="font-weight:600;margin-bottom:4px;">${o.label}</div>
+                <div style="font-size:11px;color:var(--text-secondary);">${o.sub}</div>
+            </div>`
+        ).join('')}</div>`;
+        document.getElementById('prevBtn').style.display = onboardingStep > 0 ? 'block' : 'none';
+        document.getElementById('nextBtn').textContent = onboardingStep === onboardingSteps.length - 1 ? '生成我的人生K线' : '下一步';
+        document.getElementById('nextBtn').disabled = !onboardingData[step.field];
+    }
+
+    function selectOption(field, val) {
+        onboardingData[field] = val;
+        renderStep();
+    }
+
+    function nextStep() {
+        if (onboardingStep < onboardingSteps.length - 1) {
+            onboardingStep++;
+            renderStep();
+        } else {
+            finishOnboarding();
+        }
+    }
+
+    function prevStep() {
+        if (onboardingStep > 0) {
+            onboardingStep--;
+            renderStep();
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('onboardingModal').classList.add('hidden');
+    }
+
+    function finishOnboarding() {
+        const age = 26;
+        const educationBonus = { primary: 0.5, junior: 0.8, senior: 1.0, college: 1.2, bachelor: 1.3, master: 1.5 };
+        user = {
+            age,
+            region: onboardingData.region,
+            area: onboardingData.area,
+            income: onboardingData.income,
+            education: onboardingData.education,
+            birthYear: new Date().getFullYear() - age,
+            annualIncome: 80000 * educationBonus[onboardingData.education],
+            annualIncomeGrowth: 0.1,
+            studyHours: 1,
+            healthScore: 70,
+            debtRatio: 0,
+            hasJob: true,
+            salaryRaised: true,
+            hasLicense: true,
+            marathon: false,
+            married: false,
+            hasHouse: false,
+            hasChild: false,
+            investments: [],
+            history: generateHistory({
+                age,
+                region: onboardingData.region,
+                area: onboardingData.area,
+                income: onboardingData.income,
+                education: onboardingData.education
+            })
+        };
+        user.totalInvest = user.history.reduce((s, h) => s + h.invest, 0);
+        localStorage.setItem('lifeStockUser', JSON.stringify(user));
+        closeModal();
+        showDashboard();
+        showToast('人生K线已生成！');
+    }
+
+    function showDashboard() {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('dashboard').classList.add('active');
+        refreshDashboard();
+    }
+
+    function backToHome() {
+        document.getElementById('dashboard').classList.remove('active');
+        document.getElementById('homePage').style.display = 'block';
+    }
+
+    function resetAll() {
+        if (confirm('确定要重置所有数据吗？')) {
+            localStorage.removeItem('lifeStockUser');
+            user = null;
+            backToHome();
+        }
+    }
+
+    function refreshDashboard() {
+        if (!user) return;
+        const stock = calculateStock(user);
+        document.getElementById('dashPrice').textContent = '¥' + stock.price;
+        document.getElementById('dashChange').textContent = (stock.change >= 0 ? '+' : '') + stock.change + '%';
+        document.getElementById('dashChange').style.color = stock.change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+        document.getElementById('dashBV').textContent = stock.bv;
+        document.getElementById('dashEPS').textContent = stock.eps;
+        document.getElementById('dashROE').textContent = stock.roe + '%';
+        document.getElementById('dashPE').textContent = stock.pe;
+
+        const kline = generateKline(user);
+        drawKline(kline);
+
+        const achieved = MILESTONES.filter(m => m.condition(user));
+        document.getElementById('milestoneCount').textContent = `(${achieved.length}/${MILESTONES.length})`;
+        const ml = document.getElementById('milestoneList');
+        ml.innerHTML = MILESTONES.map(m => {
+            const done = m.condition(user);
+            return `<div class="milestone-item ${done ? '' : 'locked'}">
+                <div class="milestone-icon">${done ? m.icon : '🔒'}</div>
+                <div class="milestone-info">
+                    <div class="milestone-name">${m.name}</div>
+                    <div class="milestone-desc">${m.desc}</div>
+                </div>
+                <div class="milestone-bonus">${done ? '+' + m.bonus : '+' + m.bonus}</div>
+            </div>`;
+        }).join('');
+
+        const totalInvest = user.history.reduce((s, h) => s + h.invest, 0) + user.investments.reduce((s, i) => s + i.amount, 0);
+        const roi = totalInvest > 0 ? (stock.price / (totalInvest / 1000) * 100) : 0;
+        document.getElementById('reportTotal').textContent = '¥' + Math.round(totalInvest).toLocaleString();
+        document.getElementById('reportYear').textContent = '¥' + Math.round(user.investments.filter(i => i.date.getFullYear() === new Date().getFullYear()).reduce((s, i) => s + i.amount, 0)).toLocaleString();
+        document.getElementById('reportROI').textContent = Math.round(roi) + '%';
+        document.getElementById('roiBar').style.width = Math.min(100, roi) + '%';
+        document.getElementById('reportGrowth').textContent = stock.growthCoef;
+        document.getElementById('growthBar').style.width = ((stock.growthCoef - 0.8) / 0.7 * 100) + '%';
+        document.getElementById('reportDebt').textContent = Math.round((user.debtRatio || 0) * 100) + '%';
+        document.getElementById('reportHealth').textContent = user.healthScore || 0;
+
+        const il = document.getElementById('investList');
+        if (user.investments.length === 0) {
+            il.innerHTML = '<div style="text-align:center;color:var(--text-secondary);padding:40px;">还没有投资记录，记一笔试试吧</div>';
+        } else {
+            il.innerHTML = user.investments.slice().reverse().map(inv => {
+                const typeLabel = { education: '🎓 教育', skill: '📚 技能', health: '💪 健康', network: '🤝 人脉', entertainment: '🎮 娱乐', other: '📦 其他' };
+                return `<div class="invest-record">
+                    <div><span class="type">${typeLabel[inv.type] || inv.type}</span> ${inv.desc || ''}</div>
+                    <div style="text-align:right;">
+                        <div class="amount">+¥${inv.amount.toLocaleString()}</div>
+                        <div class="date">${inv.date.toLocaleDateString()}</div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+    }
+
+    // ============ 记投资 ============
+    document.querySelectorAll('.invest-type').forEach(el => {
+        el.addEventListener('click', () => {
+            document.querySelectorAll('.invest-type').forEach(e => e.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedInvestType = el.dataset.type;
+        });
+    });
+
+    function addInvestment() {
+        const amount = parseFloat(document.getElementById('investAmount').value);
+        const desc = document.getElementById('investDesc').value;
+        if (!amount || amount <= 0) { showToast('请输入有效金额'); return; }
+        user.investments.push({ type: selectedInvestType, amount, desc, date: new Date() });
+        document.getElementById('investAmount').value = '';
+        document.getElementById('investDesc').value = '';
+        localStorage.setItem('lifeStockUser', JSON.stringify(user));
+        refreshDashboard();
+        showToast(`投资成功！+¥${amount}，股价已更新`);
+    }
+
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input').value;
+        showToast('预约成功！我们会在产品上线时通知你');
+        e.target.reset();
+    }
+
+    // ============ 初始化 ============
+    const saved = localStorage.getItem('lifeStockUser');
+    if (saved) {
+        try {
+            user = JSON.parse(saved);
+            user.investments = user.investments.map(i => ({ ...i, date: new Date(i.date) }));
+        } catch(e) {}
+    }
     </script>
 </body>
 </html>
