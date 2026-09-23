@@ -164,6 +164,14 @@
         .dash-btn { padding: 10px 20px; background: var(--gradient); border: none; border-radius: 10px; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
         .dash-btn:hover { transform: translateY(-1px); }
         .dash-btn.ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+        .dash-btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .setback-types { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+        .setback-type { padding: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .setback-type:hover { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+        .setback-type.selected { border-color: #ef4444; background: rgba(239,68,68,0.12); }
+        .setback-type .icon { font-size: 28px; display: block; margin-bottom: 6px; }
+        .setback-type .name { font-weight: 600; color: var(--text-primary); }
+        .setback-type .desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         @media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
         .dash-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-card); transition: border-color 0.3s ease; }
@@ -336,6 +344,7 @@
                 <button class="dash-btn" onclick="showAnchorModal()">🎯 精度校准</button>
                 <button class="dash-btn" onclick="showForecastModal()">🔮 未来预测</button>
                 <button class="dash-btn" onclick="showShareModal()">📤 分享</button>
+                <button class="dash-btn danger" onclick="showSetbackModal()">💥 记录挫折</button>
                 <button class="dash-btn ghost" onclick="toggleParentView()">👨‍👩‍👧 父母视角</button>
                 <button class="dash-btn ghost" onclick="resetAll()">重置</button>
             </div>
@@ -505,6 +514,27 @@
         </div>
     </div>
 
+    <!-- 记录挫折弹窗 -->
+    <div class="modal-overlay hidden" id="setbackModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeSetbackModal()">×</button>
+            <h2>💥 记录人生挫折</h2>
+            <p class="modal-desc">股价有涨有跌，人生也一样。记录挫折，看到它对股价的真实冲击</p>
+            <div class="setback-types" id="setbackTypes">
+                <div class="setback-type" data-type="jobloss"><span class="icon">💼</span><div class="name">失业/降薪</div><div class="desc">收入下降，EPS受损</div></div>
+                <div class="setback-type" data-type="illness"><span class="icon">🏥</span><div class="name">重大疾病</div><div class="desc">健康衰退，负债增加</div></div>
+                <div class="setback-type" data-type="loss"><span class="icon">📉</span><div class="name">投资亏损</div><div class="desc">本金损失，BV缩水</div></div>
+                <div class="setback-type" data-type="stagnate"><span class="icon">😴</span><div class="name">躺平/断更</div><div class="desc">停止成长，系数打折</div></div>
+            </div>
+            <div class="form-label">影响程度（1-10，越大冲击越强）</div>
+            <input type="range" id="setbackSeverity" min="1" max="10" value="5" style="width:100%;">
+            <div style="text-align:center;color:var(--text-secondary);margin-bottom:16px;">严重度：<span id="severityVal">5</span></div>
+            <div class="form-actions">
+                <button class="btn-primary" style="background:linear-gradient(135deg,#ef4444,#dc2626);" onclick="applySetback()">确认记录</button>
+            </div>
+        </div>
+    </div>
+
     <script>
     // ============ 核心算法（移植自Java） ============
     const Constants = {
@@ -596,8 +626,27 @@
         const eps = (user.annualIncome || 0) / 10000;
         const roe = bv > 0 ? (eps / bv * 100) : 0;
 
-        const growthCoef = Math.min(1.5, 1 + (user.annualIncomeGrowth || 0) * 0.5 + (user.studyHours || 0) * 0.02);
-        const qualityCoef = 0.85 + (user.healthScore || 50) / 200;
+        // ========== 下行机制 ==========
+        // 1. 停滞衰减：最近2年无教育/技能/健康投入，成长系数打折（不进则退）
+        const recentGrowthInvest = user.investments.filter(inv => {
+            const years = (now - new Date(inv.date)) / (365.25 * 24 * 3600 * 1000);
+            return years < 2 && ['education', 'skill', 'health'].includes(inv.type);
+        });
+        const stagnationPenalty = recentGrowthInvest.length > 0 ? 1 : Math.max(0.65, 1 - (user.age - 22) * 0.012);
+
+        // 2. 健康自然衰退：30岁后无健康投入，健康分逐年下降
+        let effectiveHealth = user.healthScore || 50;
+        const recentHealthInvest = user.investments.filter(inv => {
+            const years = (now - new Date(inv.date)) / (365.25 * 24 * 3600 * 1000);
+            return years < 2 && inv.type === 'health';
+        });
+        if (user.age > 30 && recentHealthInvest.length === 0) {
+            effectiveHealth = Math.max(20, effectiveHealth - (user.age - 30) * 1.5);
+        }
+
+        let growthCoef = Math.min(1.5, 1 + (user.annualIncomeGrowth || 0) * 0.5 + (user.studyHours || 0) * 0.02);
+        growthCoef *= stagnationPenalty;
+        const qualityCoef = 0.85 + effectiveHealth / 200;
         const riskDiscount = Math.min(0.3, (user.debtRatio || 0) * 0.3);
 
         const price = (Constants.IPO_PRICE + bv * stageCoef + milestoneBonus) * growthCoef * qualityCoef * (1 - riskDiscount);
@@ -613,7 +662,9 @@
             pe: pe + '倍',
             milestoneBonus,
             growthCoef: Math.round(growthCoef * 100) / 100,
-            qualityCoef: Math.round(qualityCoef * 100) / 100
+            qualityCoef: Math.round(qualityCoef * 100) / 100,
+            stagnationPenalty: Math.round(stagnationPenalty * 100) / 100,
+            effectiveHealth: Math.round(effectiveHealth)
         };
     }
 
@@ -632,7 +683,10 @@
 
             const tempUser = { ...user, age, history: user.history.filter(h => h.age <= age), investments: yearInv };
             const snapshot = calculateStock(tempUser);
-            points.push({ age, price: snapshot.price, invest: yearInvest, total: cumulative });
+            // K线波动：每年叠加±8%随机扰动，模拟市场情绪与不确定性
+            const volatility = 1 + (Math.random() - 0.5) * 0.16;
+            const price = snapshot.price * volatility;
+            points.push({ age, price: Math.round(price * 10) / 10, invest: yearInvest, total: cumulative });
         }
         return points;
     }
@@ -941,7 +995,10 @@
         document.getElementById('reportGrowth').textContent = stock.growthCoef;
         document.getElementById('growthBar').style.width = ((stock.growthCoef - 0.8) / 0.7 * 100) + '%';
         document.getElementById('reportDebt').textContent = Math.round((user.debtRatio || 0) * 100) + '%';
-        document.getElementById('reportHealth').textContent = user.healthScore || 0;
+        const healthEl = document.getElementById('reportHealth');
+        const healthDeclining = stock.effectiveHealth < (user.healthScore || 50);
+        healthEl.textContent = stock.effectiveHealth + (healthDeclining ? ' ↓' : '');
+        healthEl.style.color = healthDeclining ? '#ef4444' : '';
 
         const il = document.getElementById('investList');
         if (user.investments.length === 0) {
@@ -1257,12 +1314,85 @@
         showToast('请使用截图工具保存分享卡片');
     }
 
+    // ============ 记录挫折（下行机制） ============
+    let selectedSetback = null;
+    document.querySelectorAll('.setback-type').forEach(el => {
+        el.addEventListener('click', () => {
+            document.querySelectorAll('.setback-type').forEach(e => e.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedSetback = el.dataset.type;
+        });
+    });
+    document.getElementById('setbackSeverity').addEventListener('input', e => {
+        document.getElementById('severityVal').textContent = e.target.value;
+    });
+
+    function showSetbackModal() {
+        selectedSetback = null;
+        document.querySelectorAll('.setback-type').forEach(e => e.classList.remove('selected'));
+        document.getElementById('setbackSeverity').value = 5;
+        document.getElementById('severityVal').textContent = 5;
+        document.getElementById('setbackModal').classList.remove('hidden');
+    }
+    function closeSetbackModal() {
+        document.getElementById('setbackModal').classList.add('hidden');
+    }
+
+    function applySetback() {
+        if (!selectedSetback) { showToast('请选择挫折类型'); return; }
+        const severity = parseInt(document.getElementById('setbackSeverity').value);
+        const before = calculateStock(user).price;
+        const factor = severity / 10; // 0.1 ~ 1.0
+
+        switch (selectedSetback) {
+            case 'jobloss':
+                // 失业/降薪：收入下降，成长系数变负
+                user.annualIncome = Math.max(0, user.annualIncome * (1 - 0.6 * factor));
+                user.annualIncomeGrowth = Math.max(-0.3, (user.annualIncomeGrowth || 0) - 0.15 * factor);
+                showToast(`💼 收入下降 ¥${Math.round(user.annualIncome)}，EPS受损`);
+                break;
+            case 'illness':
+                // 重大疾病：健康分下降，负债增加
+                user.healthScore = Math.max(10, (user.healthScore || 50) - 30 * factor);
+                user.debtRatio = Math.min(0.8, (user.debtRatio || 0) + 0.2 * factor);
+                showToast(`🏥 健康分降至 ${user.healthScore}，负债率 ${Math.round(user.debtRatio*100)}%`);
+                break;
+            case 'loss':
+                // 投资亏损：直接扣减最近的账面价值（从累计投入中扣除）
+                const lossAmount = user.totalInvest * 0.15 * factor;
+                user.totalInvest = Math.max(0, user.totalInvest - lossAmount);
+                // 从history中按比例扣减最后几年投入
+                user.history = user.history.map(h => ({ ...h, invest: h.invest * (1 - 0.15 * factor) }));
+                showToast(`📉 本金亏损 ¥${Math.round(lossAmount)}，BV缩水`);
+                break;
+            case 'stagnate':
+                // 躺平/断更：清除近期成长型投入，触发停滞衰减
+                user.studyHours = Math.max(0, (user.studyHours || 0) - 2 * factor);
+                user.annualIncomeGrowth = Math.max(-0.2, (user.annualIncomeGrowth || 0) - 0.08 * factor);
+                showToast(`😴 进入停滞期，成长系数打折`);
+                break;
+        }
+
+        // 记录挫折事件
+        if (!user.setbacks) user.setbacks = [];
+        user.setbacks.push({ type: selectedSetback, severity, date: new Date() });
+
+        localStorage.setItem('lifeStockUser', JSON.stringify(user));
+        refreshDashboard();
+        closeSetbackModal();
+
+        const after = calculateStock(user).price;
+        const drop = ((after - before) / before * 100);
+        setTimeout(() => showToast(`股价 ${before.toFixed(1)} → ${after.toFixed(1)}（${drop >= 0 ? '+' : ''}${drop.toFixed(1)}%）`), 600);
+    }
+
     // ============ 初始化 ============
     const saved = localStorage.getItem('lifeStockUser');
     if (saved) {
         try {
             user = JSON.parse(saved);
             user.investments = user.investments.map(i => ({ ...i, date: new Date(i.date) }));
+            if (user.setbacks) user.setbacks = user.setbacks.map(s => ({ ...s, date: new Date(s.date) }));
         } catch(e) {}
     }
     </script>
