@@ -697,8 +697,36 @@
         return points;
     }
 
+    // ============ 同龄人基准价计算 ============
+    function getPeerBenchmark(user) {
+        // 基于同龄、同地区、相同学历的"平均人"参数估算基准股价
+        const avgProfile = {
+            age: user.age,
+            region: user.region,
+            area: user.area || 'urban',
+            income: 'avg',
+            education: user.education,
+            birthYear: user.birthYear,
+            annualIncome: 80000 * { primary: 0.5, junior: 0.8, senior: 1.0, college: 1.2, bachelor: 1.3, master: 1.5 }[user.education] || 80000,
+            annualIncomeGrowth: 0.05,
+            studyHours: 2,
+            healthScore: 65,
+            debtRatio: 0.05,
+            hasJob: user.age >= 22,
+            salaryRaised: user.age >= 25,
+            hasLicense: user.age >= 20,
+            marathon: false,
+            married: user.age >= 28,
+            hasHouse: user.age >= 30,
+            hasChild: user.age >= 32,
+            investments: [],
+            history: generateHistory({ age: user.age, region: user.region, area: user.area || 'urban', income: 'avg', education: user.education })
+        };
+        return calculateStock(avgProfile).price;
+    }
+
     // ============ K线图绘制 ============
-    function drawKline(points) {
+    function drawKline(points, userObj) {
         const canvas = document.getElementById('klineCanvas');
         if (!canvas) return;
         const rect = canvas.getBoundingClientRect();
@@ -707,21 +735,35 @@
         const ctx = canvas.getContext('2d');
         ctx.scale(2, 2);
         const w = rect.width, h = rect.height;
-        const pad = { l: 50, r: 20, t: 20, b: 40 };
+        const pad = { l: 50, r: 55, t: 20, b: 40 };
         const chartW = w - pad.l - pad.r;
-        const chartH = h - pad.t - pad.b;
+        const volH = 50;
+        const priceH = h - pad.t - pad.b - volH - 10;
+        const volTop = pad.t + priceH + 10;
 
         if (points.length < 2) return;
         const prices = points.map(p => p.price);
         const minP = Math.min(...prices) * 0.95;
         const maxP = Math.max(...prices) * 1.05;
         const range = maxP - minP || 1;
+        const maxVol = Math.max(...points.map(p => p.invest), 1);
+
+        const peerPrice = userObj ? getPeerBenchmark(userObj) : null;
+        const peerY = peerPrice ? pad.t + priceH * (1 - (peerPrice - minP) / range) : null;
+
+        const ma5 = points.map((p, i) => {
+            const start = Math.max(0, i - 4);
+            const slice = points.slice(start, i + 1);
+            return slice.reduce((s, x) => s + x.price, 0) / slice.length;
+        });
 
         ctx.clearRect(0, 0, w, h);
-        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+
+        // 价格网格
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
         ctx.lineWidth = 1;
         for (let i = 0; i <= 4; i++) {
-            const y = pad.t + (chartH / 4) * i;
+            const y = pad.t + (priceH / 4) * i;
             ctx.beginPath();
             ctx.moveTo(pad.l, y);
             ctx.lineTo(w - pad.r, y);
@@ -732,25 +774,57 @@
         }
 
         const stepX = chartW / (points.length - 1);
-        const grad = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
+
+        // 同龄人基准虚线
+        if (peerY !== null && peerY >= pad.t && peerY <= pad.t + priceH) {
+            ctx.strokeStyle = 'rgba(251,191,36,0.5)';
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([6, 4]);
+            ctx.beginPath();
+            ctx.moveTo(pad.l, peerY);
+            ctx.lineTo(w - pad.r, peerY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.fillText('同龄人 ¥' + Math.round(peerPrice), w - pad.r + 3, peerY + 3);
+        }
+
+        // 价格渐变填充
+        const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + priceH);
         grad.addColorStop(0, 'rgba(94,111,255,0.3)');
         grad.addColorStop(1, 'rgba(94,111,255,0)');
         ctx.beginPath();
-        ctx.moveTo(pad.l, h - pad.b);
+        ctx.moveTo(pad.l, pad.t + priceH);
         points.forEach((p, i) => {
             const x = pad.l + stepX * i;
-            const y = pad.t + chartH * (1 - (p.price - minP) / range);
+            const y = pad.t + priceH * (1 - (p.price - minP) / range);
             ctx.lineTo(x, y);
         });
-        ctx.lineTo(pad.l + chartW, h - pad.b);
+        ctx.lineTo(pad.l + chartW, pad.t + priceH);
         ctx.closePath();
         ctx.fillStyle = grad;
         ctx.fill();
 
+        // MA5 均线
+        ctx.beginPath();
+        ma5.forEach((v, i) => {
+            const x = pad.l + stepX * i;
+            const y = pad.t + priceH * (1 - (v - minP) / range);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = 'rgba(168,85,247,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 价格主线
         ctx.beginPath();
         points.forEach((p, i) => {
             const x = pad.l + stepX * i;
-            const y = pad.t + chartH * (1 - (p.price - minP) / range);
+            const y = pad.t + priceH * (1 - (p.price - minP) / range);
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
         });
@@ -758,11 +832,32 @@
         ctx.lineWidth = 2.5;
         ctx.stroke();
 
+        // 最高/最低点
+        const maxIdx = prices.indexOf(Math.max(...prices));
+        const minIdx = prices.indexOf(Math.min(...prices));
+        [maxIdx, minIdx].forEach((idx, k) => {
+            if (idx < 0 || idx >= points.length) return;
+            const p = points[idx];
+            const x = pad.l + stepX * idx;
+            const y = pad.t + priceH * (1 - (p.price - minP) / range);
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = k === 0 ? '#22c55e' : '#ef4444';
+            ctx.fill();
+            ctx.strokeStyle = '#0a0e27';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            ctx.fillStyle = k === 0 ? '#22c55e' : '#ef4444';
+            ctx.font = 'bold 9px sans-serif';
+            ctx.fillText('¥' + p.price, x - 12, y - 8);
+        });
+
+        // 里程碑节点
         const milestoneAges = [0, 6, 15, 18, 22, 30];
         points.forEach((p, i) => {
             if (milestoneAges.includes(p.age)) {
                 const x = pad.l + stepX * i;
-                const y = pad.t + chartH * (1 - (p.price - minP) / range);
+                const y = pad.t + priceH * (1 - (p.price - minP) / range);
                 ctx.beginPath();
                 ctx.arc(x, y, 5, 0, Math.PI * 2);
                 ctx.fillStyle = '#4ade80';
@@ -773,6 +868,30 @@
             }
         });
 
+        // 当前价标签
+        const last = points[points.length - 1];
+        const lastY = pad.t + priceH * (1 - (last.price - minP) / range);
+        ctx.fillStyle = last.price >= (peerPrice || last.price) ? '#22c55e' : '#ef4444';
+        ctx.fillRect(w - pad.r, lastY - 9, 50, 18);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('¥' + last.price, w - pad.r + 25, lastY + 4);
+        ctx.textAlign = 'left';
+
+        // 成交量柱
+        points.forEach((p, i) => {
+            const x = pad.l + stepX * i;
+            const barH = (p.invest / maxVol) * volH;
+            const barW = Math.max(1, stepX * 0.5);
+            ctx.fillStyle = last.price >= prices[0] ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)';
+            ctx.fillRect(x - barW / 2, volTop + volH - barH, barW, barH);
+        });
+        ctx.fillStyle = 'rgba(160,163,192,0.5)';
+        ctx.font = '9px sans-serif';
+        ctx.fillText('投入', 5, volTop + 10);
+
+        // X轴标签
         const labelStep = Math.max(1, Math.floor(points.length / 8));
         ctx.fillStyle = 'rgba(160,163,192,0.6)';
         ctx.font = '11px sans-serif';
@@ -783,7 +902,23 @@
             }
         });
 
-        const last = points[points.length - 1];
+        // 图例
+        ctx.font = '10px sans-serif';
+        const legendX = pad.l + 5;
+        const legendY = pad.t + 12;
+        ctx.fillStyle = '#5e6fff';
+        ctx.fillRect(legendX, legendY - 8, 12, 3);
+        ctx.fillStyle = '#c8cadf';
+        ctx.fillText('股价', legendX + 16, legendY);
+        ctx.fillStyle = '#a855f7';
+        ctx.fillRect(legendX + 50, legendY - 8, 12, 3);
+        ctx.fillStyle = '#c8cadf';
+        ctx.fillText('MA5', legendX + 66, legendY);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillRect(legendX + 105, legendY - 8, 12, 3);
+        ctx.fillStyle = '#c8cadf';
+        ctx.fillText('同龄人', legendX + 121, legendY);
+
         document.getElementById('klineAge').textContent = `（${last.age}岁，当前股价 ¥${last.price}）`;
     }
 
@@ -1090,7 +1225,7 @@
         document.getElementById('dashPE').textContent = stock.pe;
 
         const kline = generateKline(user);
-        drawKline(kline);
+        drawKline(kline, user);
 
         const achieved = MILESTONES.filter(m => m.condition(user));
         document.getElementById('milestoneCount').textContent = `(${achieved.length}/${MILESTONES.length})`;
