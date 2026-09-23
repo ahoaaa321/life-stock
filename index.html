@@ -345,7 +345,7 @@
                 <button class="dash-btn" onclick="showForecastModal()">🔮 未来预测</button>
                 <button class="dash-btn" onclick="showShareModal()">📤 分享</button>
                 <button class="dash-btn danger" onclick="showSetbackModal()">💥 记录挫折</button>
-                <button class="dash-btn ghost" onclick="toggleParentView()">👨‍👩‍👧 父母视角</button>
+                <button class="dash-btn ghost" onclick="showParentModal()">👨‍👩‍👧 父母视角</button>
                 <button class="dash-btn ghost" onclick="resetAll()">重置</button>
             </div>
         </div>
@@ -421,11 +421,6 @@
                     <canvas id="pieCanvas" width="160" height="160"></canvas>
                     <div class="pie-legend" id="pieLegend"></div>
                 </div>
-            </div>
-
-            <div class="dash-card" id="parentViewCard" style="display:none;">
-                <div class="dash-card-title">👨‍👩‍👧 父母视角</div>
-                <div class="parent-view" id="parentViewContent"></div>
             </div>
         </div>
     </div>
@@ -511,6 +506,16 @@
             <div class="form-actions" style="margin-top:24px;">
                 <button class="btn-primary" onclick="downloadShareCard()">⬇️ 保存图片</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 父母视角弹窗 -->
+    <div class="modal-overlay hidden" id="parentModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeParentModal()">×</button>
+            <h2>👨‍👩‍👧 父母视角</h2>
+            <p class="modal-desc">父母的每一笔投入，都是你人生股价的基石</p>
+            <div class="parent-view" id="parentViewContent"></div>
         </div>
     </div>
 
@@ -1115,10 +1120,12 @@
     }
 
     // ============ 父母视角 ============
-    let parentViewVisible = false;
-    function toggleParentView() {
-        parentViewVisible = !parentViewVisible;
-        document.getElementById('parentViewCard').style.display = parentViewVisible ? 'block' : 'none';
+    function showParentModal() {
+        updateParentView();
+        document.getElementById('parentModal').classList.remove('hidden');
+    }
+    function closeParentModal() {
+        document.getElementById('parentModal').classList.add('hidden');
     }
     function updateParentView() {
         if (!user) return;
@@ -1127,15 +1134,29 @@
         const selfInvest = user.investments.reduce((s, i) => s + i.amount, 0);
         const stock = calculateStock(user);
         const roi = totalInvest > 0 ? (stock.price / (totalInvest / 1000) * 100) : 0;
+        const parentPct = totalInvest > 0 ? Math.round(parentInvest / totalInvest * 100) : 0;
+        const selfPct = 100 - parentPct;
 
         document.getElementById('parentViewContent').innerHTML = `
-            <div class="parent-stat"><span class="label">父母累计投入</span><span class="value">¥${Math.round(parentInvest).toLocaleString()}</span></div>
-            <div class="parent-stat"><span class="label">自我投入</span><span class="value">¥${Math.round(selfInvest).toLocaleString()}</span></div>
+            <div style="margin-bottom:20px;">
+                <div style="display:flex;height:28px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.05);">
+                    <div style="width:${parentPct}%;background:linear-gradient(90deg,#5e6fff,#a855f7);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;transition:width 0.6s;">${parentPct}%</div>
+                    <div style="width:${selfPct}%;background:linear-gradient(90deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;transition:width 0.6s;">${selfPct > 5 ? selfPct + '%' : ''}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--text-secondary);">
+                    <span>👨‍👩‍👧 父母投入 ${parentPct}%</span>
+                    <span>🧑 自我投入 ${selfPct}%</span>
+                </div>
+            </div>
+            <div class="parent-stat"><span class="label">父母累计投入</span><span class="value" style="color:#a855f7;">¥${Math.round(parentInvest).toLocaleString()}</span></div>
+            <div class="parent-stat"><span class="label">自我投入</span><span class="value" style="color:#f59e0b;">¥${Math.round(selfInvest).toLocaleString()}</span></div>
             <div class="parent-stat"><span class="label">总投入</span><span class="value">¥${Math.round(totalInvest).toLocaleString()}</span></div>
             <div class="parent-stat"><span class="label">当前股价</span><span class="value" style="color:var(--accent-green)">¥${stock.price}</span></div>
             <div class="parent-stat"><span class="label">投资回报率</span><span class="value" style="color:var(--accent-green)">${Math.round(roi)}%</span></div>
-            <div style="margin-top:12px;padding:12px;background:rgba(74,222,128,0.08);border-radius:10px;font-size:12px;color:var(--text-secondary);line-height:1.6;">
-                💡 父母的每一笔投入都在为你的"股价"添砖加瓦。<br>当前 ${user.age} 岁，股价已从 IPO 的 ¥100 增长到 ¥${stock.price}。
+            <div style="margin-top:16px;padding:14px;background:rgba(74,222,128,0.08);border-radius:12px;font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                💡 父母的每一笔投入都在为你的"股价"添砖加瓦。<br>
+                当前 ${user.age} 岁，股价已从 IPO 的 ¥100 增长到 ¥${stock.price}。<br>
+                ${selfInvest === 0 ? '⚠️ 你还没有记录任何自我投入，试试"记一笔投资"吧！' : '继续加油，你的每一笔自我投入都会让股价更上一层楼。'}
             </div>
         `;
     }
